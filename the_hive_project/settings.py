@@ -27,8 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'accounts_app',
-    'hive_app'
+    'hive_app',
+    'custom_admin_app',
+    'accounts'
 ]
 
 MIDDLEWARE = [
