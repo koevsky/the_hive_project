@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('custom-admin/', include('custom_admin_app.urls')),
     path('accounts/', include('accounts.urls')),
+    path('apiary/', include('apiary_app.urls')),
     path('', include('hive_app.urls')),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

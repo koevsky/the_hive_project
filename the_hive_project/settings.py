@@ -29,7 +29,9 @@ INSTALLED_APPS = [
 
     'hive_app',
     'custom_admin_app',
-    'accounts'
+    'accounts',
+    'product_app',
+    'apiary_app'
 ]
 
 MIDDLEWARE = [
