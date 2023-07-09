@@ -47,7 +47,7 @@
 
                     </div>
                     <div class="right-phone-box">
-                        <p> <a class="fas fa-envelope"></a>  <a href="mailto:thehiveonline@gmail.com">thehiveonline@gmail.com</a> </p>
+                        <p> <a class="fas fa-envelope"></a>  <a href="{% url 'contact' %}">thehiveonlineshop@gmail.com</a> </p>
                     </div>
 
 
@@ -90,7 +90,7 @@
 					<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 						<li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Shop</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -200,7 +200,7 @@
                                     <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:359 875 366 327">+359 875 366 327</a></p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-envelope"></i>Email: <a href="mailto:thehiveonline@gmail.com">thehiveonline@gmail.com</a></p>
+                                    <p><i class="fas fa-envelope"></i>Email: <a href="{% url 'contact' %}">thehiveonlineshop@gmail.com</a></p>
                                 </li>
                             </ul>
                         </div>
