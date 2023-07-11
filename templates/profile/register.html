@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Register</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Contact Us  -->
+    <div class="contact-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-sm-12">
+                    <div class="contact-form-right">
+
+                        <div class="title-left">
+                        <h3>Create a New Account</h3>
+                        </div>
+                        <form method="post" action="{% url 'register' %}">
+                            {% csrf_token %}
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        {{ form }}
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                    <div class="submit-button text-center">
+                                        <button class="btn hvr-hover" id="submit" type="submit">Register</button>
+                                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="contact-info-left">
+                        <h1><b> CONTACT INFO </b></h1>
+                        <p>
+                        <h3>Get in touch, we would love to hear from you! <br> Let us know how you get on using your
+                            organic raw beehive foods! We feel wonderful and praise for their power and we want you to
+                            have the same experience, genuinely! </p>
+                        </h3>
+
+                        <ul>
+                            <li>
+                                <p><i class="fas fa-map-marker-alt"></i>Address: Sofia, Bulgaria </p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-phone-square"></i>Phone: <a href="#">+359 875 366
+                                    327</a></p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-envelope"></i>Email: <a href="#">thehiveonlineshop@gmail.com</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Cart -->
+
+{% endblock %}

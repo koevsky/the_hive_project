@@ -11,7 +11,9 @@ class ContactForm(forms.Form):
                 'placeholder': 'Your email [required]',
                 'class': 'form-control'
             }
-        )
+        ),
+        error_messages={'required': 'Input email'}
+
     )
 
     subject = forms.CharField(
@@ -23,7 +25,7 @@ class ContactForm(forms.Form):
                 'placeholder': 'Subject [required]',
                 'class': 'form-control'
             }
-        )
+        ),
     )
 
     message = forms.CharField(

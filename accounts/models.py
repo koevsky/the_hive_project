@@ -5,8 +5,6 @@ from django.db import models
 from accounts.validators import names_validator, telephone_number_validator
 
 
-#   not yet migrated
-
 class HiveUser(AbstractUser):
 
     MIN_NAMES_LENGTH = MinLengthValidator(2)

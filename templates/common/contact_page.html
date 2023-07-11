@@ -24,7 +24,7 @@
                     <div class="contact-form-right">
 
                         <h3><p> Please fill this <b> form </b> or make a<b> call </b> to get in touch with us. </p></h3>
-                        <form method="post" action="{% url 'contact' %}">
+                        <form class="form-multiline" method="post" action="{% url 'contact' %}">
                             {% csrf_token %}
                             <div class="row">
 

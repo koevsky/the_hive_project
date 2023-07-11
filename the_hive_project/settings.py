@@ -130,6 +130,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.HiveUser'
 
+LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+
+
+
+
+
+
 
 
