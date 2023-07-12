@@ -14,12 +14,10 @@ def telephone_number_validator(value: str):
 
     error_message = 'Invalid number!'
 
-    # + 359 882 398 181
-
-    if value.startswith('+'):
+    if value[0] == '+':
 
         if not (value[1:].isdigit() and len(value) == 13):
-            return ValidationError(error_message)
+            raise ValidationError(error_message)
 
     elif value.isdigit():
 

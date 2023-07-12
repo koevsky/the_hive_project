@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
 
-from accounts.forms import HiveUserCreationForm, UserLoginForm
+
+from accounts.forms import HiveUserCreationForm, UserLoginForm, UserEditForm, UserDeleteForm
 
 UserModel = get_user_model()
 
@@ -34,10 +35,65 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
     next_page = reverse_lazy('index')
 
 
-class UserProfilePageView(DetailView):
+class UserProfilePageView(LoginRequiredMixin, DetailView):
 
     model = UserModel
     template_name = 'profile/profile_page.html'
+
+
+class UserProfileDetailsView(LoginRequiredMixin, DetailView):
+
+    model = UserModel
+    template_name = 'profile/details_profile.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['is_user'] = self.request.user == self.object
+
+        return context
+
+
+class UserEditView(LoginRequiredMixin, UpdateView):
+
+    model = UserModel
+    form_class = UserEditForm
+    template_name = 'profile/edit_profile.html'
+
+    def get_success_url(self):
+        return reverse('profile-details', kwargs={'pk': self.object.pk})
+
+
+class UserDeleteView(DeleteView):
+
+    model = UserModel
+    template_name = 'profile/delete_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = UserDeleteForm(instance=self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.request.user.delete()
+        return redirect('index')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

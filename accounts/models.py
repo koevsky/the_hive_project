@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
-
+from django.templatetags.static import static
 from accounts.validators import names_validator, telephone_number_validator
 
 
@@ -32,7 +32,8 @@ class HiveUser(AbstractUser):
     profile_picture = models.ImageField(
         blank=True,
         null=True,
-        upload_to='profile_pics'
+        upload_to='profile_pics',
+
     )
 
     telephone_number = models.CharField(
@@ -40,3 +41,15 @@ class HiveUser(AbstractUser):
         null=True,
         validators=[telephone_number_validator]
     )
+
+    description = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    def get_full_name(self):
+        names = [self.first_name, self.last_name]
+        names = [name for name in names if name is not None]
+        return ' '.join(names)
+
+

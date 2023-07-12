@@ -90,5 +90,46 @@ class UserLoginForm(AuthenticationForm):
     )
 
 
+class UserEditForm(forms.ModelForm):
 
+    class Meta:
+        model = UserModel
+        fields = ['first_name', 'last_name', 'telephone_number', 'profile_picture', 'description']
+
+        widgets = {
+            'first_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+
+            'last_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+
+            'telephone_number': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control'
+                }
+            )
+
+        }
+
+
+class UserDeleteForm(UserEditForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for (_, field) in self.fields.items():
+            field.widget.attrs['disabled'] = True
+            field.widget.attrs['readonly'] = True
 
