@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ apiarymodel.apiary_name }}</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Detail  -->
+    <div class="shop-detail-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                    <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+
+                                {% if apiarymodel.apiary_photo %}
+
+                                    <img class="d-block w-50 rounded-circle" src="{{ apiarymodel.apiary_photo.url }}"
+                                         alt="Image">
+
+                                {% else %}
+
+                                    <img class="d-block w-50" src="{% static 'images/default-apiary-image.png' %}"
+                                         alt="Image">
+
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <div class="single-product-details">
+                        <h2>Bee garden information:</h2>
+
+                        <h5>
+                            Total beehives: {{ apiarymodel.hives_count }}
+                        </h5>
+
+                        {% if apiarymodel.location %}
+                            <h5>
+
+                                Location:
+                                {{ apiarymodel.location }}
+
+                            </h5>
+                        {% endif %}
+
+                        <p class="available-stock"><span> All products / <a href="#">8 sold </a></span>
+
+                            {% if apiarymodel.description %}
+
+                                <p>
+                                <h4>Description:</h4>
+                                <p>{{ apiarymodel.description }} </p>
+
+                            {% endif %}
+
+                        {% if is_user %}
+                            <div class="add-to-btn">
+                                <div class="add-comp">
+
+                                    <a class="btn hvr-hover" href="{% url 'edit-apiary' apiarymodel.pk %}"><i
+                                            class="fas fa-user-edit"></i> Edit bee garden</a>
+
+                                    <a class="btn hvr-hover" href="{% url 'delete-apiary' apiarymodel.pk %}"><i
+                                            class="fas fa-user-slash"></i> Delete bee garden</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

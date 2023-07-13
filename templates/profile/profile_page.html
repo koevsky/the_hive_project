@@ -28,13 +28,15 @@
                                     <a href="{% url 'profile-details' request.user.pk %}"> <i class="fa fa-user-check"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <h4>Your Account</h4>
+                                    <h4>{{ addressing }} Account</h4>
+                                    {% if is_user %}
                                     <p>Manage your account</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    {% if is_user %}
                     <div class="col-lg-6 col-md-12">
                         <div class="account-box">
                             <div class="service-box">
@@ -42,12 +44,13 @@
                                     <a href="#"> <i class="fa fa-gift"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <h4>Your Orders</h4>
+                                    <h4>{{ addressing }} Orders</h4>
                                     <p>Track, return, or buy things again</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endif %}
 
                     <div class="col-lg-6 col-md-12">
                         <div class="account-box">
@@ -56,8 +59,8 @@
                                     <a href="#"><i class="fa fa-box-open"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <h4>Your Products</h4>
-                                    <p>View your products</p>
+                                    <h4>{{ addressing }} Products</h4>
+                                    <p>View {{ addressing }} products</p>
                                 </div>
                             </div>
                         </div>
@@ -69,11 +72,11 @@
                         <div class="account-box">
                             <div class="service-box">
                                 <div class="service-icon">
-                                    <a href="#"> <i class="fa fa-boxes"></i> </a>
+                                    <a href="{% url 'apiaries' request.user.pk %}"> <i class="fa fa-boxes"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <h4>Your bee hives</h4>
-                                    <p>View benefits and payment settings</p>
+                                    <h4>{{ addressing }} bee hives</h4>
+                                    <p>View {{ addressing }} bee hives</p>
                                 </div>
                             </div>
                         </div>

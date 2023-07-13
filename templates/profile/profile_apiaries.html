@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block  content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ addressing }} bee gardens</h2>
+                    {% if is_user %}
+                        <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'create-apiary' %}">Add your new garden</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        {% if apiaries %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Garden name</th>
+                                    <th>Location</th>
+                                    <th>Hives count</th>
+                                    <th></th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for apiary in apiaries %}
+                                    <tr>
+                                        <td class="thumbnail-img">
+                                            {% if apiary.apiary_photo %}
+                                            <img class="img-fluid" src="{{ apiary.apiary_photo.url }}" alt=""/>
+                                            {% else %}
+                                            <img class="img-fluid" src="{% static 'images/default-apiary-image.png' %}" alt=""/>
+                                            {% endif %}
+                                        </td>
+                                        <td class="name-pr">
+                                                <h3>{{ apiary.apiary_name }}</h3>
+                                        </td>
+                                        <td class="team-content">
+                                            <p> {{ apiary.location }} </p>
+                                        </td>
+                                        <td class="quantity-box">{{ apiary.hives_count }}</td>
+                                        {% if is_user %}
+                                            <td class="cart-and-bay-btn">
+                                                <div class="price-box-bar">
+                                                    <div class="cart-and-bay-btn">
+                                                        <a class="btn hvr-hover" data-fancybox-close=""
+                                                           href="{% url 'details-apiary' apiary.pk %}">Details</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <h1>Not any apiaries yet . . .</h1>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
