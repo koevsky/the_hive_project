@@ -3,14 +3,16 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from apiary_app.models import ApiaryModel
+from product_app.validators import product_name_validator
 
 UserModel = get_user_model()
 
 
 class ProductModel(models.Model):
 
-    min_price_validator = MinValueValidator(1)
-    min_qty_validator = MinValueValidator(1)
+    MIN_PRICE_VALIDATOR = MinValueValidator(1)
+    MIN_QTY_VALIDATOR = MinValueValidator(1)
+    MIN_GRAMS_VALIDATOR = MinValueValidator(1)
 
     HONEY = 'Honey'
     POLLEN = 'Pollen'
@@ -26,13 +28,19 @@ class ProductModel(models.Model):
         blank=False,
         null=False,
         max_length=30,
-        validators=[]
+        validators=[product_name_validator]
     )
 
     product_type = models.CharField(
         blank=False,
         null=False,
         choices=PRODUCT_TYPES
+    )
+
+    product_image = models.ImageField(
+        blank=True,
+        null=True,
+        upload_to='product_pics'
     )
 
     description = models.TextField(
@@ -44,7 +52,16 @@ class ProductModel(models.Model):
         blank=False,
         null=False,
         validators=[
-            min_price_validator
+            MIN_PRICE_VALIDATOR
+        ],
+        max_length=30
+    )
+
+    grams = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        validators=[
+            MIN_GRAMS_VALIDATOR
         ]
     )
 
@@ -52,13 +69,13 @@ class ProductModel(models.Model):
         blank=False,
         null=False,
         validators=[
-            min_qty_validator
+            MIN_QTY_VALIDATOR
         ]
     )
 
-    apiary = models.ManyToManyField(
+    apiary = models.ForeignKey(
         ApiaryModel,
-        blank=False,
+        on_delete=models.CASCADE
     )
 
     owner = models.ForeignKey(

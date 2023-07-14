@@ -23,7 +23,7 @@
                     <div class="contact-form-right">
 
                         <div class="title-left">
-                            <h3>Your current profile data</h3>
+                            <h3>Your current bee garden data</h3>
                         </div>
                         <form method="post" action="{% url 'delete-apiary' object.pk %}" enctype="multipart/form-data">
                             {% csrf_token %}

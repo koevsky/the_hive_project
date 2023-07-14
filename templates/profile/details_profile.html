@@ -28,11 +28,13 @@
 
                                 {% if object.profile_picture %}
 
-                                    <img class="d-block w-50 rounded-circle" src="{{ object.profile_picture.url }}" alt="Image">
+                                    <img class="d-block w-50 rounded-circle" src="{{ object.profile_picture.url }}"
+                                         alt="Image">
 
                                 {% else %}
 
-                                    <img class="d-block w-50" src="{% static 'images/profile-picture.png' %}" alt="Image">
+                                    <img class="d-block w-50" src="{% static 'images/profile-picture.png' %}"
+                                         alt="Image">
 
                                 {% endif %}
 
@@ -51,31 +53,42 @@
                         <h5>
                             Telephone number:
                             {% if object.telephone_number %}
-                            {{ object.telephone_number }}
+                                {{ object.telephone_number }}
                             {% else %}
                                 None
                             {% endif %}
                         </h5>
+                        <h2>
+                            <a href="{% url 'profile-products' object.pk %}">{{ object.username }}'s products</a>
+                        </h2>
+                        <h2>
+                            <a href="{% url 'profile-apiaries' object.pk %}">{{ object.username }}'s bee gardens</a>
+                        </h2>
+
                         <p class="available-stock"><span> all_products / <a href="#">8 sold </a></span>
                         <p>
-                        <h4>Short Description:</h4>
-                        {% if object.description %}
-                        <p>{{ object.description }} </p>
-                        {% endif %}
+
+                            {% if object.description %}
+
+                                <h4>Short Description:</h4>
+                                <p>{{ object.description }} </p>
+
+                            {% endif %}
 
                         {% if is_user %}
-                        <div class="add-to-btn">
-                            <div class="add-comp">
-                                <a class="btn hvr-hover" href="{% url 'profile-edit' object.pk %}"><i class="fas fa-user-edit"></i> Edit profile</a>
-                                <a class="btn hvr-hover" href="{% url 'profile-delete' object.pk %}"><i class="fas fa-user-slash"></i> Delete profile</a>
+                            <div class="add-to-btn">
+                                <div class="add-comp">
+                                    <a class="btn hvr-hover" href="{% url 'profile-edit' object.pk %}"><i
+                                            class="fas fa-user-edit"></i> Edit profile</a>
+                                    <a class="btn hvr-hover" href="{% url 'profile-delete' object.pk %}"><i
+                                            class="fas fa-user-slash"></i> Delete profile</a>
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
 
                     </div>
                 </div>
             </div>
-
 
 
             <div class="row my-5">

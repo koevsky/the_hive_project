@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinLengthValidator
+from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 
 from apiary_app.validators import validate_name_upper, validate_name_symbols
@@ -36,7 +36,10 @@ class ApiaryModel(models.Model):
     hives_count = models.PositiveIntegerField(
         blank=False,
         null=False,
-        default=1
+        default=1,
+        validators=[
+            MinValueValidator(1)
+        ]
     )
 
     apiary_photo = models.ImageField(
@@ -55,6 +58,5 @@ class ApiaryModel(models.Model):
         on_delete=models.CASCADE
     )
 
-
-
-
+    def __str__(self):
+        return f'{self.apiary_name} - {self.location}'

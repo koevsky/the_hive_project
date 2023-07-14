@@ -20,7 +20,7 @@ class ApiaryCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('apiaries', kwargs={'pk': self.request.user.pk})
+        return reverse('profile-apiaries', kwargs={'pk': self.request.user.pk})
 
 
 class ApiaryDetails(DetailView):
@@ -32,6 +32,7 @@ class ApiaryDetails(DetailView):
 
         context = super().get_context_data(**kwargs)
         context['is_user'] = self.request.user == self.object.owner
+        context['products_count'] = self.object.productmodel_set.all().count()
 
         return context
 
@@ -58,7 +59,7 @@ class ApiaryDelete(LoginRequiredMixin, DeleteView):
         return context
 
     def get_success_url(self):
-        return reverse('apiaries', kwargs={'pk': self.request.user.pk})
+        return reverse('profile-apiaries', kwargs={'pk': self.request.user.pk})
 
 
 

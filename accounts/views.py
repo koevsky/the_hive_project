@@ -110,3 +110,22 @@ class AllUserApiariesView(DetailView):
         context['is_user'] = self.object == self.request.user
 
         return context
+
+
+class AllUserProductsView(DetailView):
+
+    model = UserModel
+    template_name = 'profile/profile_products.html'
+
+    def get_context_data(self, **kwargs):
+        addressing = 'Your'
+        if self.request.user != self.object:
+            addressing = f"{self.object.username}'s"
+
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.object.productmodel_set.all()
+        context['addressing'] = addressing
+        context['is_user'] = self.object == self.request.user
+
+        return context
+

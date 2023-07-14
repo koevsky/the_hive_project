@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% load static %}
+
+{% block content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ addressing }} Products</h2>
+
+                    {% if is_user %}
+                        <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'product-create' %}">Add a product</a></li>
+                    {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        {% if products %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product name</th>
+                                    <th>Bee garden</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+
+                                    <th></th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for product in products %}
+                                    <tr>
+                                        <td class="thumbnail-img">
+                                            {% if product.product_image %}
+                                                <img class="img-fluid" src="{{ product.product_image.url }}" alt=""/>
+                                            {% else %}
+                                                <img class="img-fluid"
+                                                     src="{% static 'images/default-product-image.jpg' %}" alt=""/>
+                                            {% endif %}
+                                        </td>
+                                        <td class="name-pr">
+                                            <h3>{{ product.product_name }}</h3>
+                                        </td>
+                                        <td class="name-pr">
+                                            <h3>{{ product.apiary }}</h3>
+                                        </td>
+
+                                        <td class="team-content">
+                                            <p> {{ product.price|floatformat:2 }} </p>
+                                        </td>
+                                        <td class="quantity-box">{{ product.quantity }}</td>
+                                        {% if is_user %}
+                                            <td class="cart-and-bay-btn">
+                                                <div class="price-box-bar">
+                                                    <div class="cart-and-bay-btn">
+                                                        <a class="btn hvr-hover" data-fancybox-close=""
+                                                           href="{% url 'product-details' product.pk %}">Details</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <h1>Not any products yet . . .</h1>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

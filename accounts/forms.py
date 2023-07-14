@@ -96,32 +96,11 @@ class UserEditForm(forms.ModelForm):
         model = UserModel
         fields = ['first_name', 'last_name', 'telephone_number', 'profile_picture', 'description']
 
-        widgets = {
-            'first_name': forms.TextInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-            'last_name': forms.TextInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-
-            'telephone_number': forms.TextInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-
-            'description': forms.Textarea(
-                attrs={
-                    'class': 'form-control'
-                }
-            )
-
-        }
+        for (_, field) in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
 
 class UserDeleteForm(UserEditForm):

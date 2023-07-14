@@ -50,6 +50,13 @@
                         <h5>
                             Total beehives: {{ apiarymodel.hives_count }}
                         </h5>
+                        <h5>
+                            Owner: <a href="{% url 'profile-details' apiarymodel.owner.pk %}">{{ apiarymodel.owner.username }}</a>
+                        </h5>
+
+                        <h5>
+                            Related products count: {{ products_count }}
+                        </h5>
 
                         {% if apiarymodel.location %}
                             <h5>

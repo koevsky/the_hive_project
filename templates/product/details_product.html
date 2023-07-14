@@ -1,10 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% load static %}
+
+{% block content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ productmodel.product_name }} - {{ productmodel.apiary.location }}</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Detail  -->
+    <div class="shop-detail-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                    <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+
+                                {% if productmodel.product_image %}
+
+                                    <img class="d-block w-50 rounded-circle" src="{{ productmodel.product_image.url }}"
+                                         alt="Image">
+
+                                {% else %}
+
+                                    <img class="d-block w-50" src="{% static 'images/default-product-image.jpg' %}"
+                                         alt="Image">
+
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <div class="single-product-details">
+                        <h2>Product information:</h2>
+
+                        <h5>
+                            Total likes: 12
+                        </h5>
+
+                        <h5>
+                            From bee garden: <a href="{% url 'details-apiary' productmodel.apiary.pk %}">{{ productmodel.apiary }}</a>
+                        </h5>
+
+                        <h5>
+                            Producer's profile: <a href="{% url 'profile-details' productmodel.owner.pk %}">{{ productmodel.owner.username }}</a>
+                        </h5>
+
+                        <h5>
+                            Price: {{ productmodel.price|floatformat:2 }} lv.
+                        </h5>
+
+                        <h5>
+                            Quantity: {{ productmodel.grams }} gr.
+                        </h5>
+
+                        {% if is_user %}
+                        <h5>
+                            In stock: {{ productmodel.quantity }}
+                        </h5>
+                        {% endif %}
+
+                            {% if productmodel.description %}
+
+                                <p>
+                                <h4>Description:</h4>
+                                <p>{{ productmodel.description }} </p>
+
+                            {% endif %}
+
+                        {% if is_user %}
+                            <div class="add-to-btn">
+                                <div class="add-comp">
+
+                                    <a class="btn hvr-hover" href="{% url 'product-edit' productmodel.pk  %}"><i
+                                            class="fas fa-user-edit"></i> Edit product</a>
+
+                                    <a class="btn hvr-hover" href="{% url 'product-delete' productmodel.pk %}"><i
+                                            class="fas fa-user-slash"></i> Delete product</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
