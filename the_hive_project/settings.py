@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'custom_admin_app',
     'accounts',
     'product_app',
-    'apiary_app'
+    'apiary_app',
+    'cart_app'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'hive_app.context_processors.cart_items_processor',
             ],
         },
     },

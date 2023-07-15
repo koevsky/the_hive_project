@@ -1,5 +1,7 @@
 {% load static %}
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <!-- Basic -->
@@ -31,219 +33,213 @@
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
 
-
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
 </head>
 
 <body>
-    <!-- Start Main Top -->
-    <div class="main-top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<div class="custom-select-box">
+<!-- Start Main Top -->
+<div class="main-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="custom-select-box">
 
-                    </div>
-                    <div class="right-phone-box">
-                        <p> <a class="fas fa-envelope"></a>  <a href="{% url 'contact' %}">thehiveonlineshop@gmail.com</a> </p>
-                    </div>
-
-
-                    <!-- ACCOUNT idea -->
-                    <div class="">
-
-                    </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<div class="our-link">
-						<ul>
-                            {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'profile-page' request.user.pk %}"><i class="fa fa-user s_color"></i> Profile </a></li>
-                            <li><a href="{% url 'logout-confirm' %}"><i class="fa fa-user-times s_color"></i> Logout </a></li>
-                            {% else %}
-                            <li><a href="{% url 'register' %}"><i class="fa fa-user-plus s_color"></i> Register </a></li>
-                            <li><a href="{% url 'login' %}"><i class="fa fa-user-lock s_color"></i> Login </a></li>
-                            {% endif %}
-                        </ul>
-					</div>
+                <div class="right-phone-box">
+                    <p><a class="fas fa-envelope"></a> <a href="{% url 'contact' %}">thehiveonlineshop@gmail.com</a></p>
+                </div>
+
+
+                <!-- ACCOUNT idea -->
+                <div class="">
 
                 </div>
             </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="our-link">
+                    <ul>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'profile-page' request.user.pk %}"><i class="fa fa-user s_color"></i>
+                                Profile </a></li>
+                            <li><a href="{% url 'logout-confirm' %}"><i class="fa fa-user-times s_color"></i> Logout
+                            </a></li>
+                        {% else %}
+                            <li><a href="{% url 'register' %}"><i class="fa fa-user-plus s_color"></i> Register </a>
+                            </li>
+                            <li><a href="{% url 'login' %}"><i class="fa fa-user-lock s_color"></i> Login </a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </div>
-    <!-- End Main Top -->
+</div>
+<!-- End Main Top -->
 
-    <!-- Start Main Top -->
-    <header class="main-header">
-        <!-- Start Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
-            <div class="container">
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+<!-- Start Main Top -->
+<header class="main-header">
+    <!-- Start Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                        aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                        {# Show index page #}
-                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" class="logo" alt=""></a>
-                </div>
-                <!-- End Header Navigation -->
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-menu">
-					<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-						<li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Shop</a></li>
-						<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
-                    <ul>
-                        <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
-                        <li class="side-menu"><a href="#">
-						<i class="fa fa-shopping-bag"></i>
-                            <span class="badge">0</span>
-							<p>My Cart</p>
-					</a></li>
-                    </ul>
-                </div>
-                <!-- End Atribute Navigation -->
+                {# Show index page #}
+                <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" class="logo"
+                                                                      alt=""></a>
             </div>
-            <!-- Start Side Menu -->
-            <div class="side">
-                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-                <li class="cart-box">
-                    <ul class="cart-list">
-                        {# list productrs in side cart #}
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-01.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Delica omtantur </a></h6>
-                            <p>1x - <span class="price">$80.00</span></p>
-                        </li>
+            <!-- End Header Navigation -->
 
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-02.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Omnes ocurreret</a></h6>
-                            <p>1x - <span class="price">$60.00</span></p>
-                        </li>
-
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-03.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Agam facilisis</a></h6>
-                            <p>1x - <span class="price">$40.00</span></p>
-                        </li>
-
-                        <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $180.00</span>
-                        </li>
-
-                    </ul>
-                </li>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
             </div>
-            <!-- End Side Menu -->
-        </nav>
-        <!-- End Navigation -->
-    </header>
-    <!-- End Main Top -->
+            <!-- /.navbar-collapse -->
 
-    <!-- Start Top Search -->
-    <div class="top-search">
+            <!-- Start Atribute Navigation -->
+            <div class="attr-nav">
+                <ul>
+
+                    <li class="side-menu"><a href="#">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span class="badge">{{ items.count }}</span>
+                        <p>My Cart</p>
+                    </a></li>
+
+                </ul>
+            </div>
+            <!-- End Atribute Navigation -->
+        </div>
+
+        <!-- Start Side Menu -->
+        <div class="side">
+            <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+            <li class="cart-box">
+                <ul class="cart-list">
+
+                    {% for item in items %}
+
+                        <li>
+                            <a href="#" class="photo"><img src="{{ item.product.product_image.url }}" class="cart-thumb"
+                                                           alt=""/></a>
+                            <h6><a href="#">{{ item.product.product_name }} </a></h6>
+                            <p>1x - <span class="price">{{ item.product.price|floatformat:2 }} lv</span></p>
+                        </li>
+
+                    {% endfor %}
+
+                    <li class="total">
+                        <a href="{% url 'cart-details' %}" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
+                        <span class="float-right"><strong>Total</strong>: {{ total_items_price|floatformat:2 }} lv.</span>
+                    </li>
+
+                </ul>
+            </li>
+        </div>
+        <!-- End Side Menu -->
+
+    </nav>
+    <!-- End Navigation -->
+</header>
+<!-- End Main Top -->
+
+>
+
+{% block content %}
+{% endblock %}
+
+<span style="display: block; height: 310px;"></span>
+
+<!-- Start Footer  -->
+<footer>
+    <div class="footer-main">
         <div class="container">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input type="text" class="form-control" placeholder="Search">
-                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="footer-top-box">
+                        <h3>Business Time</h3>
+                        <ul class="list-time">
+                            <li>Monday - Friday: 08.00am to 05.00pm</li>
+                            <li>Saturday: 10.00am to 08.00pm</li>
+                            <li>Sunday: <span>Closed</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="footer-link">
+                        <h4>Information</h4>
+                        <ul>
+                            <li><a href="#">FAQS</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Cookie policy</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Shipping and Delivery</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="footer-link-contact">
+                        <h4>Contact Us</h4>
+                        <ul>
+                            <li>
+                                <p><i class="fas fa-map-marker-alt"></i>Address: Sofia, Bulgaria </p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:359 875 366 327">+359 875 366
+                                    327</a></p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-envelope"></i>Email: <a href="{% url 'contact' %}">thehiveonlineshop@gmail.com</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <hr>
+
         </div>
     </div>
-    <!-- End Top Search -->
+</footer>
+<!-- End Footer  -->
 
-    {% block content %}
-    {% endblock %}
+<!-- Start copyright  -->
+<div class="footer-copyright">
+    <p class="footer-company">All Rights Reserved. &copy; 2023 <a href="{% url 'index' %}">The Hive Online </a></p>
+</div>
+<!-- End copyright  -->
 
-   <!-- Start Footer  -->
-    <footer>
-        <div class="footer-main">
-            <div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-12 col-sm-12">
-						<div class="footer-top-box">
-							<h3>Business Time</h3>
-							<ul class="list-time">
-								<li>Monday - Friday: 08.00am to 05.00pm</li>
-                                <li>Saturday: 10.00am to 08.00pm</li>
-                                <li>Sunday: <span>Closed</span></li>
-							</ul>
-						</div>
-					</div>
+<a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
-					<div class="col-lg-4 col-md-12 col-sm-12">
-                        <div class="footer-link">
-                            <h4>Information</h4>
-                            <ul>
-                                <li><a href="#">FAQS</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">Cookie policy</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Shipping and Delivery</a></li>
-                            </ul>
-                        </div>
-                    </div>
-					<div class="col-lg-4 col-md-12 col-sm-12">
-                        <div class="footer-link-contact">
-                            <h4>Contact Us</h4>
-                            <ul>
-                                <li>
-                                    <p><i class="fas fa-map-marker-alt"></i>Address: Sofia, Bulgaria  </p>
-                                </li>
-                                <li>
-                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:359 875 366 327">+359 875 366 327</a></p>
-                                </li>
-                                <li>
-                                    <p><i class="fas fa-envelope"></i>Email: <a href="{% url 'contact' %}">thehiveonlineshop@gmail.com</a></p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-				</div>
-				<hr>
-
-            </div>
-        </div>
-    </footer>
-    <!-- End Footer  -->
-
-    <!-- Start copyright  -->
-    <div class="footer-copyright">
-        <p class="footer-company">All Rights Reserved. &copy; 2023 <a href="{% url 'index' %}">The Hive Online </a> </p>
-    </div>
-    <!-- End copyright  -->
-
-    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
-
-    <!-- ALL JS FILES -->
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- ALL PLUGINS -->
-    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap-select.js' %}"></script>
-    <script src="{% static 'js/inewsticker.js' %}"></script>
-    <script src="{% static 'js/bootsnav.js' %}"></script>
-    <script src="{% static 'js/images-loded.min.js' %}"></script>
-    <script src="{% static 'js/isotope.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/baguetteBox.min.js' %}"></script>
-    <script src="{% static 'js/form-validator.min.js' %}"></script>
-    <script src="{% static 'js/contact-form-script.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
+<!-- ALL JS FILES -->
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- ALL PLUGINS -->
+<script src="{% static 'js/jquery.superslides.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-select.js' %}"></script>
+<script src="{% static 'js/inewsticker.js' %}"></script>
+<script src="{% static 'js/bootsnav.js' %}"></script>
+<script src="{% static 'js/images-loded.min.js' %}"></script>
+<script src="{% static 'js/isotope.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/baguetteBox.min.js' %}"></script>
+<script src="{% static 'js/form-validator.min.js' %}"></script>
+<script src="{% static 'js/contact-form-script.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
 </body>
 
 </html>

@@ -1,10 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% load static %}
+
+{% block content %}
+
+
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Shop</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Page  -->
+    <div class="shop-box-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                    <div class="right-product-box">
+                        <div class="product-item-filter row">
+                            <div class="col-12 col-sm-8 text-center text-sm-left">
+                                <div class="toolbar-sorter-right">
+                                    <span>Sort by </span>
+                                    <select id="basic" class="selectpicker show-tick form-control"
+                                            data-placeholder="$ USD">
+                                        <option data-display="Select">Nothing</option>
+                                        <option value="1">Popularity</option>
+                                        <option value="2">High Price → High Price</option>
+                                        <option value="3">Low Price → High Price</option>
+                                        <option value="4">Best Selling</option>
+                                    </select>
+                                </div>
+                                <p>Showing all {{ productmodel_list.count }} results</p>
+                            </div>
+                        </div>
+
+                        {% if productmodel_list %}
+
+                            <div class="product-categorie-box">
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                        <div class="row">
+
+                                            {% for product in productmodel_list %}
+
+                                                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                    <div class="products-single fix">
+                                                        <div class="box-img-hover">
+
+                                                            <img src="{{ product.product_image.url }}" class="img-fluid"
+                                                                 alt="Image">
+                                                            <div class="mask-icon">
+                                                                <ul>
+                                                                    <li><a href="{% url 'product-details' product.pk %}"
+                                                                           data-toggle="tooltip"
+                                                                           data-placement="right" title="Details"><i
+                                                                            class="fas fa-eye"></i></a></li>
+                                                                    <li><a href="#" data-toggle="tooltip"
+                                                                           data-placement="right"
+                                                                           title="Like"><i
+                                                                            class="far fa-heart"></i></a></li>
+                                                                </ul>
+                                                                <a class="cart" href="{% url 'cart-add' product.pk %}">Add
+                                                                    to Cart</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="why-text">
+                                                            <h4>{{ product.product_name }}</h4>
+                                                            <h5> {{ product.price|floatformat:2 }} lv</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% else %}
+
+                            <h1 align="center" style="font-size: xxx-large">Not any products yet . . .</h1>
+
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                    <div class="product-categori">
+                        <div class="search-product">
+                            <form action="#">
+                                <input class="form-control" placeholder="Search here..." type="text">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Shop Page -->
+{% endblock %}

@@ -9,7 +9,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('bee-garden/', include('apiary_app.urls')),
     path('product/', include('product_app.urls')),
+    path('cart/', include('cart_app.urls')),
     path('', include('hive_app.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
