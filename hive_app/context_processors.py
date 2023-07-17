@@ -1,5 +1,3 @@
-
-
 def cart_items_processor(request):
     if request.user.is_authenticated:
 
@@ -9,7 +7,7 @@ def cart_items_processor(request):
 
         items = []
 
-    total_items_price = sum(item.product.price for item in items)
+    total_items_price = sum(item.product.price * item.quantity for item in items)
 
     return {
         'items': items,

@@ -53,9 +53,13 @@
                                                 <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                                     <div class="products-single fix">
                                                         <div class="box-img-hover">
-
+                                                            {% if product.product_image %}
                                                             <img src="{{ product.product_image.url }}" class="img-fluid"
                                                                  alt="Image">
+                                                            {% else %}
+                                                            <img src="{% static 'images/default-product-image.jpg' %}" class="img-fluid"
+                                                                 alt="Image">
+                                                            {% endif %}
                                                             <div class="mask-icon">
                                                                 <ul>
                                                                     <li><a href="{% url 'product-details' product.pk %}"

@@ -48,8 +48,10 @@ class HiveUser(AbstractUser):
     )
 
     def get_full_name(self):
+
         names = [self.first_name, self.last_name]
         names = [name for name in names if name is not None]
+
         return ' '.join(names)
 
 

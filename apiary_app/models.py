@@ -55,7 +55,7 @@ class ApiaryModel(models.Model):
 
     owner = models.ForeignKey(
         UserModel,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):

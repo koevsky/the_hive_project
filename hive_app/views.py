@@ -1,15 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
-from django.shortcuts import render
+
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView
 
 from hive_app.forms import ContactForm
 from hive_app.models import EmailModel
 from product_app.models import ProductModel
-from the_hive_project import settings
 
-mail_recipient_list = ['thehiveonlineshop@gmail.com']
 
 
 class ShowIndexView(TemplateView):

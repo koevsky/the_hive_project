@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MinLengthValidator
 from django.db import models
-
+from django.templatetags.static import static
 from apiary_app.models import ApiaryModel
 from product_app.validators import product_name_validator
 
@@ -10,6 +10,7 @@ UserModel = get_user_model()
 
 class ProductModel(models.Model):
 
+    MIN_NAME_LENGTH = MinLengthValidator(3)
     MIN_PRICE_VALIDATOR = MinValueValidator(1)
     MIN_QTY_VALIDATOR = MinValueValidator(1)
     MIN_GRAMS_VALIDATOR = MinValueValidator(1)
@@ -28,7 +29,10 @@ class ProductModel(models.Model):
         blank=False,
         null=False,
         max_length=30,
-        validators=[product_name_validator]
+        validators=[
+            product_name_validator,
+            MIN_NAME_LENGTH,
+        ]
     )
 
     product_type = models.CharField(
@@ -40,7 +44,7 @@ class ProductModel(models.Model):
     product_image = models.ImageField(
         blank=True,
         null=True,
-        upload_to='product_pics'
+        upload_to='product_pics',
     )
 
     description = models.TextField(

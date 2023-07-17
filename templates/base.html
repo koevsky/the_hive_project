@@ -132,10 +132,15 @@
                     {% for item in items %}
 
                         <li>
+                            {% if item.product.product_image %}
                             <a href="#" class="photo"><img src="{{ item.product.product_image.url }}" class="cart-thumb"
                                                            alt=""/></a>
+                            {% else %}
+                            <a href="#" class="photo"><img src="{% static 'images/default-product-image.jpg' %}" class="cart-thumb"
+                                                           alt=""/></a>
+                            {% endif     %}
                             <h6><a href="#">{{ item.product.product_name }} </a></h6>
-                            <p>1x - <span class="price">{{ item.product.price|floatformat:2 }} lv</span></p>
+                            <p>{{ item.quantity }}x - <span class="price">{{ item.product.price|floatformat:2 }} lv</span></p>
                         </li>
 
                     {% endfor %}

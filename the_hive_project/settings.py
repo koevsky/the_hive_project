@@ -14,7 +14,8 @@ SECRET_KEY = 'django-insecure-ju($r!stlas^ktxopq4tr3(k75d_l0okgf(b0&^47=7xtnq$4^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,6 +122,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -136,13 +138,6 @@ AUTH_USER_MODEL = 'accounts.HiveUser'
 LOGOUT_REDIRECT_URL = 'index'
 LOGIN_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-
-
 
 
 
