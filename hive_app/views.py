@@ -8,7 +8,6 @@ from hive_app.models import EmailModel
 from product_app.models import ProductModel
 
 
-
 class ShowIndexView(TemplateView):
     template_name = 'common/index.html'
 

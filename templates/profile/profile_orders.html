@@ -1,0 +1,84 @@
+{% extends  'base.html' %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>You Orders</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        {% if orders %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Created at</th>
+                                    <th>Country</th>
+                                    <th>Shipped to</th>
+                                    <th>Products count</th>
+                                    <th>Total price</th>
+                                    <th>Ordered products</th>
+                                    <th>Remove</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for order in orders %}
+                                    <tr>
+
+                                        <td class="name-pr">
+                                            <h3>{{ order.created_at }}</h3>
+                                        </td>
+                                        <td class="name-pr">
+                                            <h3>{{ order.country }}</h3>
+                                        </td>
+                                        <td class="name-pr">
+                                            <h3>{{ order.city }} - {{ order.address }}</h3>
+                                        </td>
+
+                                        <td class="team-content">
+                                            <p> {{ order.total_products_qty }} </p>
+                                        </td>
+
+                                        <td class="quantity-box">
+                                            {{ order.total_price|floatformat:2 }} lv
+                                        </td>
+
+                                        <td>
+                                            <a href="{% url 'order-details' order.pk %}">Products</a>
+                                        </td>
+
+                                        <td class="remove-pr">
+                                            <a href="{% url 'order-delete' order.pk %}">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <h1 align="center" style="font-size: xxx-large">Not any orders yet . . .</h1>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

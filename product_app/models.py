@@ -86,3 +86,4 @@ class ProductModel(models.Model):
         UserModel,
         on_delete=models.CASCADE
     )
+

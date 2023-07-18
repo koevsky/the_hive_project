@@ -100,7 +100,9 @@ class AllUserApiariesView(DetailView):
     template_name = 'profile/profile_apiaries.html'
 
     def get_context_data(self, **kwargs):
+
         addressing = 'Your'
+
         if self.request.user != self.object:
             addressing = f"{self.object.username}'s"
 
@@ -118,7 +120,9 @@ class AllUserProductsView(DetailView):
     template_name = 'profile/profile_products.html'
 
     def get_context_data(self, **kwargs):
+
         addressing = 'Your'
+
         if self.request.user != self.object:
             addressing = f"{self.object.username}'s"
 
@@ -128,4 +132,21 @@ class AllUserProductsView(DetailView):
         context['is_user'] = self.object == self.request.user
 
         return context
+
+
+class AllUserOrdersView(DetailView):
+
+    model = UserModel
+    template_name = 'profile/profile_orders.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = self.object.ordermodel_set.all()
+        context['is_user'] = self.object == self.request.user
+
+        return context
+
+
+
+
 

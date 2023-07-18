@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
-
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.urls import reverse
 
-
-from cart_app.models import CartModel
+from cart_app.forms import OrderForm
+from cart_app.models import CartModel, OrderModel
 from product_app.models import ProductModel
 
 
@@ -13,6 +12,7 @@ def cart_view(request):
 
     cart_items = CartModel.objects.filter(user=request.user).order_by('created_at')
     total_money = sum([item.quantity * item.product.price for item in cart_items])
+
     context = {
         'cart_items': cart_items,
         'total_money': total_money,
@@ -70,13 +70,77 @@ def update_cart(request, pk):
 @login_required(login_url='login')
 def checkout_page(request):
 
-    cart_items = CartModel.objects.filter(user=request.user)
-    total = sum([item.total_price() for item in cart_items])
+    cart_items = CartModel.objects.filter(user=request.user).all()
     delivery = 5
+
+    total_price = sum([item.total_price() for item in cart_items])
+    total_products_count = sum([item.quantity for item in cart_items])
+
+    form = OrderForm()
+
+    if request.method == 'POST':
+
+        form = OrderForm(request.POST)
+
+        if form.is_valid():
+
+            order = form.save(commit=False)
+            order.user = request.user
+            order.total_products_qty = total_products_count
+            order.total_price = total_price
+            order.save()
+
+            for item in cart_items:
+
+                product = item.product
+                product.quantity -= item.quantity
+                product.save()
+                order.items.add(item)
+
+            cart_items.delete()
+            order.save()
+
+            return redirect('order-success')
 
     context = {
         'cart_items': cart_items,
-        'grand_total': total,
-        'delivery': delivery
+        'sub_total': total_price,
+        'grand_total': total_price + delivery,
+        'delivery': delivery,
+        'form': form
     }
+
     return render(request, 'cart/checkout.html', context)
+
+
+@login_required(login_url='login')
+def successful_order_page(request):
+    return render(request, 'cart/order_success.html')
+
+
+@login_required(login_url='login')
+def delete_order(request, pk):
+
+    order = OrderModel.objects.get(pk=pk)
+    order.delete()
+    url = reverse('profile-orders', kwargs={'pk': request.user.pk})
+
+    return redirect(url)
+
+
+@login_required(login_url='login')
+def ordered_details(request, pk):
+
+    order = OrderModel.objects.get(pk=pk)
+    ordered_items = order.items.all()
+
+    context = {
+        'items': ordered_items,
+        'order': order
+    }
+
+    return render(request, 'cart/order_details.html', context)
+
+
+
+
