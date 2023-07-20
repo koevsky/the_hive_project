@@ -76,12 +76,12 @@
 
                                     </td>
                                     <td class="total-pr">
-                                        <p>{{ item.total_price|floatformat:2 }} lv</p>
+                                        <p>{{ item.item_price|floatformat:2 }} lv</p>
                                     </td>
 
 
                                     <td class="remove-pr">
-                                        <a href="{% url 'cart-remove' item.product.pk %}">
+                                        <a href="{% url 'cart-remove' item.pk %}">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     </td>
@@ -107,7 +107,7 @@
                         <hr>
                         <div class="d-flex gr-total">
                             <h5>Grand Total</h5>
-                            <div class="ml-auto h5"> {{ total_money|floatformat:2 }} lv</div>
+                            <div class="ml-auto h5"> {{ total_price|floatformat:2 }} lv</div>
                         </div>
                         <hr>
                     </div>

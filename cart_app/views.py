@@ -3,19 +3,20 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from cart_app.forms import OrderForm
-from cart_app.models import CartModel, OrderModel
+from cart_app.models import Cart, CartItem, Order
+
 from product_app.models import ProductModel
 
 
 @login_required(login_url='login')
 def cart_view(request):
 
-    cart_items = CartModel.objects.filter(user=request.user).order_by('created_at')
-    total_money = sum([item.quantity * item.product.price for item in cart_items])
+    cart = Cart.objects.get(user=request.user)
+    cart_items = cart.items.all()
 
     context = {
         'cart_items': cart_items,
-        'total_money': total_money,
+        'total_price': cart.total_price()
     }
 
     return render(request, 'cart/cart_details.html', context)
@@ -25,17 +26,31 @@ def cart_view(request):
 def add_to_cart(request, pk):
 
     product = ProductModel.objects.get(pk=pk)
-    cart_item = CartModel.objects.create(user=request.user, product=product)
-    cart_item.save()
+    cart = Cart.objects.get(user=request.user)
 
-    return redirect('shop')
+    cart_item = cart.items.filter(product_id=pk).first()
+
+    if cart_item in cart.items.all():
+
+        cart_item.quantity += 1
+        cart_item.save()
+
+    else:
+
+        cart_item = CartItem.objects.create(product=product)
+        cart.items.add(cart_item)
+
+    cart.save()
+
+    previous_page = request.META.get('HTTP_REFERER')
+
+    return redirect(previous_page)
 
 
 @login_required(login_url='login')
 def remove_from_cart(request, pk):
 
-    product = ProductModel.objects.get(pk=pk)
-    cart_item = CartModel.objects.filter(user=request.user, product=product)
+    cart_item = CartItem.objects.get(pk=pk)
     cart_item.delete()
 
     return redirect('cart-details')
@@ -44,14 +59,19 @@ def remove_from_cart(request, pk):
 @login_required(login_url='login')
 def update_cart(request, pk):
 
-    item = CartModel.objects.get(pk=pk)
+    item = CartItem.objects.get(pk=pk)
+    product_qty = item.product.quantity
     new_quantity = int(request.POST.get(f'quantity_{item.pk}', 0))
 
-    if new_quantity > item.product.quantity or new_quantity < 0:
+    if new_quantity == 0:
+        item.delete()
+
+    if new_quantity > product_qty or new_quantity < 0:
 
         error_message = f"Error - invalid input!"
-        cart_items = CartModel.objects.filter(user=request.user).order_by('created_at')
-        total_money = sum([item.quantity * item.product.price for item in cart_items])
+        cart = Cart.objects.get(user=request.user)
+        cart_items = cart.items.all()
+        total_money = cart.total_price()
 
         context = {
             'error_message': error_message,
@@ -70,11 +90,10 @@ def update_cart(request, pk):
 @login_required(login_url='login')
 def checkout_page(request):
 
-    cart_items = CartModel.objects.filter(user=request.user).all()
+    cart = Cart.objects.get(user=request.user)
+    cart_items = cart.items.all()
+    total_qty = sum(item.quantity for item in cart_items)
     delivery = 5
-
-    total_price = sum([item.total_price() for item in cart_items])
-    total_products_count = sum([item.quantity for item in cart_items])
 
     form = OrderForm()
 
@@ -85,9 +104,10 @@ def checkout_page(request):
         if form.is_valid():
 
             order = form.save(commit=False)
+
             order.user = request.user
-            order.total_products_qty = total_products_count
-            order.total_price = total_price
+            order.total_price = cart.total_price() + delivery
+            order.total_products_qty = total_qty
             order.save()
 
             for item in cart_items:
@@ -95,17 +115,19 @@ def checkout_page(request):
                 product = item.product
                 product.quantity -= item.quantity
                 product.save()
-                order.items.add(item)
 
-            cart_items.delete()
+                order_item = CartItem.objects.create(product=product, quantity=item.quantity)
+                order.items.add(order_item)
+
             order.save()
+            cart_items.delete()
 
             return redirect('order-success')
 
     context = {
         'cart_items': cart_items,
-        'sub_total': total_price,
-        'grand_total': total_price + delivery,
+        'sub_total': cart.total_price(),
+        'grand_total': cart.total_price() + delivery,
         'delivery': delivery,
         'form': form
     }
@@ -121,7 +143,7 @@ def successful_order_page(request):
 @login_required(login_url='login')
 def delete_order(request, pk):
 
-    order = OrderModel.objects.get(pk=pk)
+    order = Order.objects.get(pk=pk)
     order.delete()
     url = reverse('profile-orders', kwargs={'pk': request.user.pk})
 
@@ -129,18 +151,14 @@ def delete_order(request, pk):
 
 
 @login_required(login_url='login')
-def ordered_details(request, pk):
+def order_details(request, pk):
 
-    order = OrderModel.objects.get(pk=pk)
-    ordered_items = order.items.all()
+    order = Order.objects.get(pk=pk)
+    order_items = order.items.all()
 
     context = {
-        'items': ordered_items,
+        'order_items': order_items,
         'order': order
     }
 
     return render(request, 'cart/order_details.html', context)
-
-
-
-

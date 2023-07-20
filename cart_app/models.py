@@ -4,39 +4,51 @@ from django.db import models
 
 from cart_app.vlidators import name_upper_validator, name_letters_validator, zip_code_length, card_names_validator, \
     card_names_start_with_capital, validate_card_digits, cvv_digits_count
+
 from product_app.models import ProductModel
 
 
 UserModel = get_user_model()
 
 
-class CartModel(models.Model):
-
-    user = models.ForeignKey(
-        UserModel,
-        on_delete=models.CASCADE
-    )
-
-    quantity = models.PositiveIntegerField(
-        default=1,
-        validators=[
-            MinValueValidator(1),
-        ]
-
-    )
+class CartItem(models.Model):
 
     product = models.ForeignKey(
         ProductModel,
         on_delete=models.CASCADE
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    quantity = models.PositiveIntegerField(
+        blank=False,
+        null=False,
+        default=1,
+        validators=[MinValueValidator(1)]
+    )
+
+    def __str__(self):
+        return f'{self.product.product_name} - {self.quantity}'
+
+    def item_price(self):
+        return self.product.price * self.quantity
+
+
+class Cart(models.Model):
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE
+    )
+
+    items = models.ManyToManyField(
+        CartItem,
+        blank=True
+    )
 
     def total_price(self):
-        return self.quantity * self.product.price
+        return sum(item.item_price() for item in self.items.all())
 
 
-class OrderModel(models.Model):
+class Order(models.Model):
 
     MIN_LENGTH = MinLengthValidator(2)
 
@@ -157,7 +169,7 @@ class OrderModel(models.Model):
     )
 
     items = models.ManyToManyField(
-        CartModel,
+        CartItem,
     )
 
     total_products_qty = models.IntegerField(
@@ -172,4 +184,5 @@ class OrderModel(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-
+    def __str__(self):
+        return f'Order №{self.pk}'

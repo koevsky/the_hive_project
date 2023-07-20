@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 
 from apiary_app.models import ApiaryModel
-from cart_app.models import CartModel, OrderModel
+from cart_app.models import Cart, Order, CartItem
 from hive_app.models import EmailModel
 from product_app.models import ProductModel
 
@@ -29,11 +29,16 @@ class MailAdmin(admin.ModelAdmin):
     list_display = ['email', 'subject', 'created_at']
 
 
-@admin.register(CartModel)
+@admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ['user']
 
 
-@admin.register(OrderModel)
+@admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['created_at']
+    list_display = ['id', 'created_at']
+
+
+@admin.register(CartItem)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product']

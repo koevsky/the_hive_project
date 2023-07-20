@@ -59,9 +59,9 @@
                                         <div class="media mb-2 border-light">
                                             <div class="media-body"><a
                                                     href="{% url 'product-details' item.product.pk %}"> {{ item.product.product_name }}</a>
-                                                <div class="small text-muted">Price: {{ item.product.price }} lv <span
+                                                <div class="small text-muted">Product price: {{ item.product.price|floatformat:2 }} lv <span
                                                         class="mx-2">|</span> Qty: {{ item.quantity }} <span
-                                                        class="mx-2">|</span> Subtotal: {{ item.total_price|floatformat:2 }}</div>
+                                                        class="mx-2">|</span> Subtotal: {{ item.item_price|floatformat:2 }} lv</div>
                                             </div>
                                         </div>
                                     {% endfor %}

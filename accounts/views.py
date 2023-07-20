@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from accounts.forms import HiveUserCreationForm, UserLoginForm, UserEditForm, UserDeleteForm
-
+from cart_app.models import Cart
 
 UserModel = get_user_model()
 
@@ -20,6 +20,7 @@ class UserRegisterView(CreateView):
     def form_valid(self, form):
 
         valid = super().form_valid(form)
+        Cart.objects.create(user=self.object)
         login(self.request, self.object)
 
         return valid
@@ -62,6 +63,7 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
+        context['products'] = self.object.productmodel_set.all()
         context['is_user'] = self.request.user == self.object
 
         return context
@@ -140,12 +142,10 @@ class AllUserOrdersView(DetailView):
     template_name = 'profile/profile_orders.html'
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
-        context['orders'] = self.object.ordermodel_set.all()
-        context['is_user'] = self.object == self.request.user
-
+        context['orders'] = self.object.order_set.all()
         return context
-
 
 
 

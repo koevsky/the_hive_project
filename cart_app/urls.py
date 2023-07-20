@@ -13,6 +13,6 @@ urlpatterns = [
 
     path('order-success/', views.successful_order_page, name='order-success'),
     path('order-delete/<int:pk>/', views.delete_order, name='order-delete'),
-    path('order-details/<int:pk>/', views.ordered_details, name='order-details'),
+    path('order-details/<int:pk>/', views.order_details, name='order-details'),
 
 ]

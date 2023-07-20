@@ -9,6 +9,7 @@ from product_app.models import ProductModel
 
 
 class ShowIndexView(TemplateView):
+
     template_name = 'common/index.html'
 
 
@@ -41,5 +42,21 @@ class ShopPageView(ListView):
 
     model = ProductModel
     template_name = 'common/shop.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('Search', '')
+        queryset = queryset.filter(product_name__icontains=search)
+        queryset = queryset.order_by('product_name')
+
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+
+        context = super().get_context_data(*args, **kwargs)
+        context['Search'] = self.request.GET.get('Search', '')
+
+        return context
+
 
 

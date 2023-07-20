@@ -87,3 +87,5 @@ class ProductModel(models.Model):
         on_delete=models.CASCADE
     )
 
+    def __str__(self):
+        return f'{self.product_name} - {self.price}lv'

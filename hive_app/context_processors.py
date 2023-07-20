@@ -1,13 +1,21 @@
-def cart_items_processor(request):
-    if request.user.is_authenticated:
+from cart_app.models import Cart
 
-        items = request.user.cartmodel_set.all()
+
+def cart_items_processor(request):
+
+    if request.user.is_authenticated and not request.user.is_superuser:
+
+        cart = Cart.objects.get(user=request.user)
+        items = cart.items.all()
 
     else:
 
         items = []
 
-    total_items_price = sum(item.product.price * item.quantity for item in items)
+    if items:
+        total_items_price = sum(item.item_price() for item in items)
+    else:
+        total_items_price = 0
 
     return {
         'items': items,
