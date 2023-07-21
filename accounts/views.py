@@ -64,6 +64,7 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
 
         context = super().get_context_data(**kwargs)
         context['products'] = self.object.productmodel_set.all()
+        context['is_auth'] = self.request.user.is_authenticated
         context['is_user'] = self.request.user == self.object
 
         return context

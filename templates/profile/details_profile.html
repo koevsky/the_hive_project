@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load custom_tags %}
+
 {% block content %}
 
     <!-- Start All Title Box -->
@@ -101,33 +103,53 @@
 
                             <div class="featured-products-box owl-carousel owl-theme">
                                 {% for product in products %}
-                                <div class="item">
-                                    <div class="products-single fix">
-                                        <div class="box-img-hover">
-                                            {% if product.product_image %}
-                                                <img src="{{ product.product_image.url }}" class="img-fluid"
-                                                     alt="Image">
-                                            {% else %}
-                                                <img src="{% static 'images/default-product-image.jpg' %}"
-                                                     class="img-fluid" alt="Image">
-                                            {% endif %}
-                                            <div class="mask-icon">
-                                                <ul>
-                                                    <li><a href="{% url 'product-details' product.pk %}" data-toggle="tooltip" data-placement="right"
-                                                           title="Details"><i
-                                                            class="fas fa-eye"></i></a></li>
-                                                    <li><a href="#" data-toggle="tooltip" data-placement="right"
-                                                           title="Like"><i class="far fa-heart"></i></a></li>
-                                                </ul>
-                                                <a class="cart" href="{% url 'cart-add' product.pk %}">Add to Cart</a>
+                                    <div class="item">
+                                        <div class="products-single fix">
+                                            <div class="box-img-hover">
+                                                {% if product.product_image %}
+                                                    <img src="{{ product.product_image.url }}" class="img-fluid"
+                                                         alt="Image">
+                                                {% else %}
+                                                    <img src="{% static 'images/default-product-image.jpg' %}"
+                                                         class="img-fluid" alt="Image">
+                                                {% endif %}
+                                                <div class="mask-icon">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="{% url 'product-details' product.pk %}"
+                                                               data-toggle="tooltip" data-placement="right"
+                                                               title="Details">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                        </li>
+                                                        {% if is_auth %}
+                                                            <li>
+                                                                <a href="{% url 'like' product.pk %}"
+                                                                   data-toggle="tooltip"
+                                                                   data-placement="right"
+                                                                   title="{% like_title product request.user %}">
+                                                                    {% if product|is_liked:request.user %}
+
+                                                                        <i class="far fa-heart"
+                                                                           style="color: red"></i>
+                                                                    {% else %}
+                                                                        <i class="far fa-heart"
+                                                                           style="color: white"></i>
+                                                                    {% endif %}
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
+                                                    </ul>
+                                                    <a class="cart" href="{% url 'cart-add' product.pk %}">Add to
+                                                        Cart</a>
+                                                </div>
+                                            </div>
+                                            <div class="why-text">
+                                                <h4>{{ product.product_name }}</h4>
+                                                <h5>{{ product.price|floatformat:2 }} lv</h5>
                                             </div>
                                         </div>
-                                        <div class="why-text">
-                                            <h4>{{ product.product_name }}</h4>
-                                            <h5>{{ product.price|floatformat:2 }} lv</h5>
-                                        </div>
                                     </div>
-                                </div>
                                 {% endfor %}
                             </div>
                         {% endif %}

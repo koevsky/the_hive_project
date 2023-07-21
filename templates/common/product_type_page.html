@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Shop</h2>
+                    <h2>{{ page_name }}</h2>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
 
                         {% else %}
 
-                            <h1 align="center" style="font-size: xxx-large">Not any products yet . . .</h1>
+                            <h1 align="center" style="font-size: xxx-large">Not any {{ page_name|lower }} yet . . .</h1>
 
                         {% endif %}
                     </div>

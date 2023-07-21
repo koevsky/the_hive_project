@@ -37,6 +37,7 @@ class DetailsProductView(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
+        context['likes'] = self.object.like_set.all().count()
         context['is_user'] = self.request.user == self.object.owner
 
         return context

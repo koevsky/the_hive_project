@@ -1,4 +1,5 @@
 from cart_app.models import Cart
+from product_app.models import ProductModel
 
 
 def cart_items_processor(request):

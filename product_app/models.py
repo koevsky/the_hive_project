@@ -28,7 +28,7 @@ class ProductModel(models.Model):
     product_name = models.CharField(
         blank=False,
         null=False,
-        max_length=30,
+        max_length=60,
         validators=[
             product_name_validator,
             MIN_NAME_LENGTH,
@@ -89,3 +89,7 @@ class ProductModel(models.Model):
 
     def __str__(self):
         return f'{self.product_name} - {self.price}lv'
+
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'

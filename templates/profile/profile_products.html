@@ -64,10 +64,10 @@
                                         </td>
 
                                         <td class="team-content">
-                                            <p> {{ product.price|floatformat:2 }} </p>
+                                            <p> {{ product.price|floatformat:2 }} lv</p>
                                         </td>
                                         <td class="quantity-box">{{ product.quantity }}</td>
-                                        {% if is_user %}
+
                                             <td class="cart-and-bay-btn">
                                                 <div class="price-box-bar">
                                                     <div class="cart-and-bay-btn">
@@ -76,7 +76,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        {% endif %}
+
                                     </tr>
                                 {% endfor %}
 

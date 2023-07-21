@@ -32,6 +32,7 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
 
+
 class Cart(models.Model):
 
     user = models.ForeignKey(

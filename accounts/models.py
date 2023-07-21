@@ -54,4 +54,6 @@ class HiveUser(AbstractUser):
 
         return ' '.join(names)
 
-
+    class Meta:
+        verbose_name = 'Hive User'
+        verbose_name_plural = 'Hive Users'
