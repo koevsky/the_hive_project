@@ -186,4 +186,4 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Order №{self.pk}'
+        return f'Order №{self.pk} - By: {self.user}'

@@ -2,7 +2,7 @@ import random
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import redirect
 
 from django.urls import reverse_lazy
@@ -16,14 +16,6 @@ from product_app.models import ProductModel
 class ShowIndexView(TemplateView):
 
     template_name = 'common/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        products = ProductModel.objects.all()
-        context['products'] = products
-
-        return context
 
 
 class ContactFormCreate(CreateView):
@@ -46,8 +38,10 @@ class Custom404View(TemplateView):
     template_name = '404.html'
 
     def get_context_data(self,request, *args, **kwargs):
+
         self.response = self.render_to_response(self.get_context_data(*args, **kwargs))
         self.response.status_code = 404
+
         return self.response
 
 
@@ -80,9 +74,9 @@ class ShowProductOnly(ListView):
     template_name = 'common/product_type_page.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-
         context = super().get_context_data(**kwargs)
-        context['page_name'] = product_type = self.kwargs.get('product_type')
+
+        context['page_name'] = self.kwargs.get('product_type')
 
         return context
 
@@ -91,9 +85,6 @@ class ShowProductOnly(ListView):
         product_type = self.kwargs.get('product_type')
         queryset = queryset.filter(product_type=product_type)
         return queryset
-
-
-
 
 
 @login_required(login_url='login')

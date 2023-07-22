@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, DeleteView, UpdateView
 
@@ -43,11 +43,19 @@ class DetailsProductView(DetailView):
         return context
 
 
-class EditProductView(UpdateView):
+class EditProductView(LoginRequiredMixin, UpdateView):
 
     model = ProductModel
     form_class = ProductForm
     template_name = 'product/edit_product.html'
+
+    def get(self, request, *args, **kwargs):
+        get = super().get(request, *args, **kwargs)
+
+        if self.request.user != self.object.owner:
+            return redirect('index')
+
+        return get
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -62,6 +70,14 @@ class DeleteProductView(LoginRequiredMixin, DeleteView):
 
     model = ProductModel
     template_name = 'product/delete_product.html'
+
+    def get(self, request, *args, **kwargs):
+        get = super().get(request, *args, **kwargs)
+
+        if self.request.user != self.object.owner:
+            return redirect('index')
+
+        return get
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

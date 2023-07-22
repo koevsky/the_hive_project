@@ -60,3 +60,7 @@ class ApiaryModel(models.Model):
 
     def __str__(self):
         return f'{self.apiary_name} - {self.location}'
+
+    def _owner_products(self):
+        return self.owner.productmodel_set.all().count()
+

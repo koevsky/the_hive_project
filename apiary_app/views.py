@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from apiary_app.forms import ApiaryForm, ApiaryDeleteForm
@@ -43,6 +43,14 @@ class ApiaryEdit(LoginRequiredMixin, UpdateView):
     model = ApiaryModel
     template_name = 'apiary/edit_apiary.html'
 
+    def get(self, request, *args, **kwargs):
+        get = super().get(request, *args, **kwargs)
+
+        if self.request.user != self.object.owner:
+            return redirect('index')
+
+        return get
+
     def get_success_url(self):
         return reverse('details-apiary', kwargs={'pk': self.object.pk})
 
@@ -51,6 +59,14 @@ class ApiaryDelete(LoginRequiredMixin, DeleteView):
 
     model = ApiaryModel
     template_name = 'apiary/delete_apiary.html'
+
+    def get(self, request, *args, **kwargs):
+        get = super().get(request, *args, **kwargs)
+
+        if self.request.user != self.object.owner:
+            return redirect('index')
+
+        return get
 
     def get_context_data(self, **kwargs):
 
