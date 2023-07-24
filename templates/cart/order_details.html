@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Order #{{ order.pk }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        {% if order_items %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+
+                                    <th>Image</th>
+                                    <th>Product name</th>
+                                    <th>Bee garden</th>
+                                    <th>Ordered quantity</th>
+                                    <th>Total price</th>
+                                    <th>Details</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for item in order_items %}
+                                    <tr>
+                                        <td class="thumbnail-img">
+                                            {% if item.product.product_name %}
+                                                <img class="img-fluid" src="{{ item.product.product_image.url }}" alt=""/>
+                                            {% else %}
+                                                <img class="img-fluid"
+                                                     src="{% static 'images/default-product-image.jpg' %}" alt=""/>
+                                            {% endif %}
+                                        </td>
+                                        <td class="name-pr">
+                                            <h3>{{ item.product.product_name }}</h3>
+                                        </td>
+                                        <td class="name-pr">
+                                            <h3>{{ item.product.apiary }}</h3>
+                                        </td>
+
+                                        <td class="team-content">
+                                            <p> {{ item.quantity }} </p>
+                                        </td>
+                                        <td class="quantity-box">{{ item.item_price|floatformat:2 }}</td>
+
+                                            <td class="cart-and-bay-btn">
+                                                <div class="price-box-bar">
+                                                    <div class="cart-and-bay-btn">
+                                                        <a class="btn hvr-hover" data-fancybox-close=""
+                                                           href="{% url 'product-details' item.product.pk %}">Details</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <h1 align="center" style="font-size: xxx-large">Not any items yet . . .</h1>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
