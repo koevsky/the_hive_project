@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from accounts.forms import HiveUserCreationForm, UserLoginForm, UserEditForm, UserDeleteForm
 from cart_app.models import Cart
+from the_hive_core.custom_mixins import CustomPermissionUserMixin
 
 UserModel = get_user_model()
 
@@ -53,28 +54,20 @@ class UserLogoutView(LoginRequiredMixin, LogoutView):
     next_page = reverse_lazy('index')
 
 
-class UserProfilePageView(LoginRequiredMixin, DetailView):
+class UserProfilePageView(CustomPermissionUserMixin, LoginRequiredMixin, DetailView):
 
     model = UserModel
     template_name = 'profile/profile_page.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
-
-        if self.request.user != self.object:
-            return redirect('index')
-
-        return get
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin', 'Moderator']
+        user = self.get_object()
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 
-        addressing = 'Your'
-        if self.request.user != self.object:
-            addressing = f"{self.object.username}'s"
-
         context = super().get_context_data(**kwargs)
         context['is_user'] = self.request.user == self.object
-        context['addressing'] = addressing
 
         return context
 
@@ -90,50 +83,41 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
         context['products'] = self.object.productmodel_set.all()
         context['is_auth'] = self.request.user.is_authenticated
         context['is_user'] = self.request.user == self.object
-        context['is_moderator'] = self.request.user.groups == 'Moderator'
-        context['is_admin'] = self.request.user.groups == 'Admin'
 
         return context
 
 
-class UserEditView(LoginRequiredMixin, UpdateView):
+class UserEditView(CustomPermissionUserMixin, LoginRequiredMixin, UpdateView):
 
     model = UserModel
     form_class = UserEditForm
     template_name = 'profile/edit_profile.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
 
-        if self.request.user != self.object:
-            return redirect('index')
-
-        return get
+        groups = ['Admin', 'Moderator']
+        user = self.get_object()
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('profile-details', kwargs={'pk': self.object.pk})
+
+        return reverse('profile-details', kwargs={'pk': self.object})
 
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+class UserDeleteView(CustomPermissionUserMixin, LoginRequiredMixin, DeleteView):
 
     model = UserModel
     template_name = 'profile/delete_profile.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
-
-        if self.request.user != self.object:
-            return redirect('index')
-
-        return get
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin']
+        user = self.get_object()
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 
-        if self.request.user != self.object:
-            return redirect('index')
-
         context = super().get_context_data(**kwargs)
-        context['form'] = UserDeleteForm(instance=self.object)
+        context['form'] = UserDeleteForm(instance=self.model)
 
         return context
 
@@ -158,7 +142,6 @@ class AllUserApiariesView(DetailView):
         context['apiaries'] = self.object.apiarymodel_set.all()
         context['addressing'] = addressing
         context['is_user'] = self.object == self.request.user
-
         return context
 
 
@@ -182,10 +165,15 @@ class AllUserProductsView(DetailView):
         return context
 
 
-class AllUserOrdersView(LoginRequiredMixin, DetailView):
+class AllUserOrdersView(CustomPermissionUserMixin, LoginRequiredMixin, DetailView):
 
     model = UserModel
     template_name = 'profile/profile_orders.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin', 'Moderator']
+        user = self.get_object()
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 

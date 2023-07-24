@@ -6,6 +6,7 @@ from cart_app.forms import OrderForm
 from cart_app.models import Cart, CartItem, Order
 
 from product_app.models import ProductModel
+from the_hive_core.decorators import group_required
 
 
 @login_required(login_url='login')

@@ -1,8 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, DeleteView, UpdateView
-
+from the_hive_core.custom_mixins import CustomPermissionUserMixin
 from product_app.forms import ProductForm, DeleteProductForm
 from product_app.models import ProductModel
 
@@ -43,41 +42,36 @@ class DetailsProductView(DetailView):
         return context
 
 
-class EditProductView(LoginRequiredMixin, UpdateView):
+class EditProductView(CustomPermissionUserMixin, LoginRequiredMixin, UpdateView):
 
     model = ProductModel
     form_class = ProductForm
     template_name = 'product/edit_product.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
-
-        if self.request.user != self.object.owner:
-            return redirect('index')
-
-        return get
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin', 'Moderator']
+        user = self.get_object().owner
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_form_kwargs(self):
+        self.get_object()
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs['user'] = self.object.owner
         return kwargs
 
     def get_success_url(self):
         return reverse('product-details', kwargs={'pk': self.object.pk})
 
 
-class DeleteProductView(LoginRequiredMixin, DeleteView):
+class DeleteProductView(CustomPermissionUserMixin, LoginRequiredMixin, DeleteView):
 
     model = ProductModel
     template_name = 'product/delete_product.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
-
-        if self.request.user != self.object.owner:
-            return redirect('index')
-
-        return get
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin']
+        user = self.get_object().owner
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

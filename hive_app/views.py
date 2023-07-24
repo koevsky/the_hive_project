@@ -35,7 +35,7 @@ class ShowLogoutConfirm(LoginRequiredMixin, TemplateView):
 
 
 class Custom404View(TemplateView):
-    template_name = '404.html'
+    template_name = '404/404.html'
 
     def get_context_data(self,request, *args, **kwargs):
 

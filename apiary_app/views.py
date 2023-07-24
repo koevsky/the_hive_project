@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from apiary_app.forms import ApiaryForm, ApiaryDeleteForm
 from apiary_app.models import ApiaryModel
+from the_hive_core.custom_mixins import CustomPermissionUserMixin
 
 
 class ApiaryCreateView(LoginRequiredMixin, CreateView):
@@ -37,36 +38,30 @@ class ApiaryDetails(DetailView):
         return context
 
 
-class ApiaryEdit(LoginRequiredMixin, UpdateView):
+class ApiaryEdit(CustomPermissionUserMixin, LoginRequiredMixin, UpdateView):
 
     form_class = ApiaryForm
     model = ApiaryModel
     template_name = 'apiary/edit_apiary.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
-
-        if self.request.user != self.object.owner:
-            return redirect('index')
-
-        return get
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin', 'Moderator']
+        user = self.get_object().owner
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('details-apiary', kwargs={'pk': self.object.pk})
 
 
-class ApiaryDelete(LoginRequiredMixin, DeleteView):
+class ApiaryDelete(CustomPermissionUserMixin, LoginRequiredMixin, DeleteView):
 
     model = ApiaryModel
     template_name = 'apiary/delete_apiary.html'
 
-    def get(self, request, *args, **kwargs):
-        get = super().get(request, *args, **kwargs)
-
-        if self.request.user != self.object.owner:
-            return redirect('index')
-
-        return get
+    def dispatch(self, request, *args, **kwargs):
+        groups = ['Admin']
+        user = self.get_object().owner
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 
