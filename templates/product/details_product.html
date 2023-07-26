@@ -52,11 +52,13 @@
                         </h5>
 
                         <h5>
-                            From bee garden: <a href="{% url 'details-apiary' productmodel.apiary.pk %}">{{ productmodel.apiary }}</a>
+                            From bee garden: <a
+                                href="{% url 'details-apiary' productmodel.apiary.pk %}">{{ productmodel.apiary }}</a>
                         </h5>
 
                         <h5>
-                            Producer's profile: <a href="{% url 'profile-details' productmodel.owner.pk %}">{{ productmodel.owner.username }}</a>
+                            Producer's profile: <a
+                                href="{% url 'profile-details' productmodel.owner.pk %}">{{ productmodel.owner.username }}</a>
                         </h5>
 
                         <h5>
@@ -68,28 +70,33 @@
                         </h5>
 
                         {% if is_user %}
-                        <h5>
-                            In stock: {{ productmodel.quantity }}
-                        </h5>
+                            <h5>
+                                In stock: {{ productmodel.quantity }}
+                            </h5>
                         {% endif %}
 
-                            {% if productmodel.description %}
+                        {% if productmodel.description %}
 
-                                <p>
-                                <h4>Description:</h4>
-                                <p>{{ productmodel.description }} </p>
+                            <p>
+                            <h4>Description:</h4>
+                            <p>{{ productmodel.description }} </p>
 
-                            {% endif %}
+                        {% endif %}
 
-                        {% if is_user %}
+                        {% if is_auth %}
                             <div class="add-to-btn">
                                 <div class="add-comp">
 
-                                    <a class="btn hvr-hover" href="{% url 'product-edit' productmodel.pk  %}"><i
-                                            class="fas fa-user-edit"></i> Edit product</a>
+                                    {% if is_user or is_admin or is_moderator %}
+                                        <a class="btn hvr-hover" href="{% url 'product-edit' productmodel.pk %}"><i
+                                                class="fas fa-user-edit"></i> Edit product</a>
+                                    {% endif %}
 
-                                    <a class="btn hvr-hover" href="{% url 'product-delete' productmodel.pk %}"><i
-                                            class="fas fa-user-slash"></i> Delete product</a>
+                                    {% if is_user or is_admin %}
+                                        <a class="btn hvr-hover" href="{% url 'product-delete' productmodel.pk %}"><i
+                                                class="fas fa-user-slash"></i> Delete product</a>
+                                    {% endif %}
+
                                 </div>
                             </div>
                         {% endif %}

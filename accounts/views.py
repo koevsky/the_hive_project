@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from accounts.forms import HiveUserCreationForm, UserLoginForm, UserEditForm, UserDeleteForm
 from cart_app.models import Cart
+
 from the_hive_core.custom_mixins import CustomPermissionUserMixin
 
 UserModel = get_user_model()
@@ -68,6 +69,8 @@ class UserProfilePageView(CustomPermissionUserMixin, LoginRequiredMixin, DetailV
 
         context = super().get_context_data(**kwargs)
         context['is_user'] = self.request.user == self.object
+        context['is_admin'] = self.request.user.groups.filter(name='Admin').exists()
+        context['is_moderator'] = self.request.user.groups.filter(name='Moderator').exists()
 
         return context
 
@@ -81,8 +84,10 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
 
         context = super().get_context_data(**kwargs)
         context['products'] = self.object.productmodel_set.all()
-        context['is_auth'] = self.request.user.is_authenticated
         context['is_user'] = self.request.user == self.object
+        context['is_auth'] = self.request.user.is_authenticated
+        context['is_admin'] = self.request.user.groups.filter(name='Admin').exists()
+        context['is_moderator'] = self.request.user.groups.filter(name='Moderator').exists()
 
         return context
 
@@ -101,7 +106,7 @@ class UserEditView(CustomPermissionUserMixin, LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
 
-        return reverse('profile-details', kwargs={'pk': self.object})
+        return reverse('profile-details', kwargs={'pk': self.object.pk})
 
 
 class UserDeleteView(CustomPermissionUserMixin, LoginRequiredMixin, DeleteView):
@@ -117,12 +122,12 @@ class UserDeleteView(CustomPermissionUserMixin, LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        context['form'] = UserDeleteForm(instance=self.model)
+        context['form'] = UserDeleteForm(instance=self.object)
 
         return context
 
     def post(self, request, *args, **kwargs):
-        self.request.user.delete()
+        self.object.delete()
         return redirect('index')
 
 
@@ -142,6 +147,9 @@ class AllUserApiariesView(DetailView):
         context['apiaries'] = self.object.apiarymodel_set.all()
         context['addressing'] = addressing
         context['is_user'] = self.object == self.request.user
+        context['is_admin'] = self.request.user.groups.filter(name='Admin').exists()
+        context['is_moderator'] = self.request.user.groups.filter(name='Moderator').exists()
+
         return context
 
 
@@ -179,6 +187,10 @@ class AllUserOrdersView(CustomPermissionUserMixin, LoginRequiredMixin, DetailVie
 
         context = super().get_context_data(**kwargs)
         context['orders'] = self.object.order_set.all()
+        context['is_user'] = self.object == self.request.user
+        context['is_admin'] = self.request.user.groups.filter(name='Admin').exists()
+        context['is_moderator'] = self.request.user.groups.filter(name='Moderator').exists()
+
         return context
 
 

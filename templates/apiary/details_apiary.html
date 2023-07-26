@@ -51,7 +51,8 @@
                             Total beehives: {{ apiarymodel.hives_count }}
                         </h5>
                         <h5>
-                            Owner: <a href="{% url 'profile-details' apiarymodel.owner.pk %}">{{ apiarymodel.owner.username }}</a>
+                            Owner: <a
+                                href="{% url 'profile-details' apiarymodel.owner.pk %}">{{ apiarymodel.owner.username }}</a>
                         </h5>
 
                         <h5>
@@ -67,23 +68,28 @@
                             </h5>
                         {% endif %}
 
-                            {% if apiarymodel.description %}
+                        {% if apiarymodel.description %}
 
-                                <p>
-                                <h4>Description:</h4>
-                                <p>{{ apiarymodel.description }} </p>
+                            <p>
+                            <h4>Description:</h4>
+                            <p>{{ apiarymodel.description }} </p>
 
-                            {% endif %}
+                        {% endif %}
 
-                        {% if is_user %}
+                        {% if is_auth %}
                             <div class="add-to-btn">
                                 <div class="add-comp">
 
-                                    <a class="btn hvr-hover" href="{% url 'edit-apiary' apiarymodel.pk %}"><i
-                                            class="fas fa-user-edit"></i> Edit bee garden</a>
+                                    {% if is_user or is_moderator or is_admin %}
+                                        <a class="btn hvr-hover" href="{% url 'edit-apiary' apiarymodel.pk %}"><i
+                                                class="fas fa-user-edit"></i> Edit bee garden</a>
+                                    {% endif %}
 
-                                    <a class="btn hvr-hover" href="{% url 'delete-apiary' apiarymodel.pk %}"><i
-                                            class="fas fa-user-slash"></i> Delete bee garden</a>
+                                    {% if is_user or is_admin %}
+                                        <a class="btn hvr-hover" href="{% url 'delete-apiary' apiarymodel.pk %}"><i
+                                                class="fas fa-user-slash"></i> Delete bee garden</a>
+                                    {% endif %}
+
                                 </div>
                             </div>
                         {% endif %}

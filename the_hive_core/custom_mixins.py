@@ -25,3 +25,27 @@ class CustomPermissionUserMixin(AccessMixin):
     def handle_no_permission(self):
 
         return redirect('index')
+
+
+class CustomPermissionAdminMixin(AccessMixin):
+
+    def dispatch(self, request, group_names, *args, **kwargs):
+
+        dispatch = super().dispatch(request, group_names, *args, **kwargs)
+
+        user_group = request.user.groups.values_list('name', flat=True)
+
+        if set(group_names).intersection(user_group):
+            return dispatch
+
+        elif request.user.is_superuser:
+            return dispatch
+
+        else:
+            return self.handle_no_permission()
+
+    def handle_no_permission(self):
+
+        return redirect('index')
+
+

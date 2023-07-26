@@ -32,7 +32,11 @@
                                     <th>Bee garden</th>
                                     <th>Ordered quantity</th>
                                     <th>Total price</th>
-                                    <th>Details</th>
+                                    <th>Product details</th>
+                                    {% if is_admin %}
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    {% endif %}
 
                                 </tr>
                                 </thead>
@@ -42,7 +46,8 @@
                                     <tr>
                                         <td class="thumbnail-img">
                                             {% if item.product.product_name %}
-                                                <img class="img-fluid" src="{{ item.product.product_image.url }}" alt=""/>
+                                                <img class="img-fluid" src="{{ item.product.product_image.url }}"
+                                                     alt=""/>
                                             {% else %}
                                                 <img class="img-fluid"
                                                      src="{% static 'images/default-product-image.jpg' %}" alt=""/>
@@ -58,17 +63,35 @@
                                         <td class="team-content">
                                             <p> {{ item.quantity }} </p>
                                         </td>
-                                        <td class="quantity-box">{{ item.item_price|floatformat:2 }}</td>
+                                        <td
+                                                class="quantity-box">{{ item.item_price|floatformat:2 }}
+                                        </td>
 
+                                        <td class="cart-and-bay-btn">
+                                            <div class="price-box-bar">
+                                                <div class="cart-and-bay-btn">
+                                                    <a class="btn hvr-hover" data-fancybox-close=""
+                                                       href="{% url 'product-details' item.product.pk %}">Details</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {% if is_admin %}
                                             <td class="cart-and-bay-btn">
                                                 <div class="price-box-bar">
                                                     <div class="cart-and-bay-btn">
                                                         <a class="btn hvr-hover" data-fancybox-close=""
-                                                           href="{% url 'product-details' item.product.pk %}">Details</a>
+                                                           href="{% url 'item-edit' item.pk %}">Edit</a>
                                                     </div>
                                                 </div>
                                             </td>
 
+
+                                            <td class="remove-pr">
+                                                <a href="{% url 'item-delete' item.pk %}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
 

@@ -37,7 +37,10 @@ class DetailsProductView(DetailView):
 
         context = super().get_context_data(**kwargs)
         context['likes'] = self.object.like_set.all().count()
-        context['is_user'] = self.request.user == self.object.owner
+        context['is_auth'] = self.request.user.is_authenticated
+        context['is_user'] = self.request.user == self.object
+        context['is_admin'] = self.request.user.groups.filter(name='Admin').exists()
+        context['is_moderator'] = self.request.user.groups.filter(name='Moderator').exists()
 
         return context
 

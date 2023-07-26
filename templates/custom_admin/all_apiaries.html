@@ -2,20 +2,15 @@
 
 {% load static %}
 
-{% block  content %}
+{% block content %}
 
     <!-- Start All Title Box -->
     <div class="all-title-box">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>{{ addressing }} bee gardens</h2>
-                    {% if is_user or is_admin or is_moderator%}
+                    <h2>All gardens</h2>
 
-                        <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'create-apiary' %}">Add your new garden</a></li>
-
-                    {% endif %}
                     </ul>
                 </div>
             </div>
@@ -29,14 +24,17 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
-                        {% if apiaries %}
+                        {% if bee_gardens %}
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Garden name</th>
+                                    <th>ID</th>
+                                    <th>Garden picture</th>
+                                    <th>Name</th>
                                     <th>Location</th>
                                     <th>Hives count</th>
+                                    <th>Owner</th>
+
                                     <th></th>
 
 
@@ -44,28 +42,36 @@
                                 </thead>
                                 <tbody>
 
-                                {% for apiary in apiaries %}
+                                {% for garden in bee_gardens %}
                                     <tr>
+                                        <td>{{ garden.id }}</td>
                                         <td class="thumbnail-img">
-                                            {% if apiary.apiary_photo %}
-                                            <img class="img-fluid" src="{{ apiary.apiary_photo.url }}" alt=""/>
+                                            {% if garden.apiary_photo %}
+                                                <img class="img-fluid" src="{{ garden.apiary_photo.url }}" alt=""/>
                                             {% else %}
-                                            <img class="img-fluid" src="{% static 'images/default-apiary-image.png' %}" alt=""/>
+                                                <img class="img-fluid"
+                                                     src="{% static 'images/default-apiary-image.png' %}" alt=""/>
                                             {% endif %}
                                         </td>
-                                        <td class="name-pr">
-                                                <h3>{{ apiary.apiary_name }}</h3>
-                                        </td>
-                                        <td class="team-content">
-                                            <p> {{ apiary.location }} </p>
-                                        </td>
-                                        <td class="quantity-box">{{ apiary.hives_count }}</td>
 
+                                        <td class="name-pr">
+                                            <h3>{{ garden.apiary_name }}</h3>
+                                        </td>
+
+                                        <td class="team-content">
+                                            <p> {{ garden.location }}</p>
+                                        </td>
+                                        <td
+                                                class="quantity-box">{{ garden.hives_count }}
+                                        </td>
+                                        <td>
+                                             <a href="{% url 'profile-details' garden.owner.pk %}">{{ garden.owner.username }}</a>
+                                        </td>
                                             <td class="cart-and-bay-btn">
                                                 <div class="price-box-bar">
                                                     <div class="cart-and-bay-btn">
                                                         <a class="btn hvr-hover" data-fancybox-close=""
-                                                           href="{% url 'details-apiary' apiary.pk %}">Details</a>
+                                                           href="{% url 'details-apiary' garden.pk %}">Details</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -83,4 +89,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

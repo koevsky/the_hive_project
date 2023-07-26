@@ -91,20 +91,20 @@ class CartAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'created_at', 'user', 'total_price']
+    list_display = ['pk', 'created_at', 'user', 'all_items_count', 'total_order_price']
     ordering = ['created_at']
 
     readonly_fields = [
         'card_number', 'cvv', 'user', 'items',
-        'total_price', 'total_products_qty',
+        'total_order_price', 'all_items_count',
         'expiration_date', 'name_on_card', 'created_at'
     ]
-    search_fields = ['first_name', 'last_name', 'user', 'total_price']
+    search_fields = ['first_name', 'last_name', 'user', 'all_items_count']
     list_filter = ['created_at', 'user', 'first_name', 'last_name']
 
     fieldsets = [
         ['User credentials:', {'fields': ['user', 'first_name', 'last_name', 'address', 'country', 'city', 'zip_code']}],
-        ['Basic order information:', {'fields': ['items', 'total_price', 'total_products_qty', 'created_at']}]
+        ['Basic order information:', {'fields': ['items', 'total_order_price', 'all_items_count', 'created_at']}]
 
     ]
 

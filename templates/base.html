@@ -1,6 +1,6 @@
 {% load static %}
 
-
+{% load custom_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -101,6 +101,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    {% if request.user|has_group:'Admin' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'custom-admin' %}">All models [ admin page ]</a></li>
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>

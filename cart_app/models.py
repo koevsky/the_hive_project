@@ -32,7 +32,6 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
 
-
 class Cart(models.Model):
 
     user = models.ForeignKey(
@@ -173,17 +172,13 @@ class Order(models.Model):
         CartItem,
     )
 
-    total_products_qty = models.IntegerField(
-        blank=False,
-        null=False
-    )
-
-    total_price = models.FloatField(
-        blank=False,
-        null=False
-    )
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'Order №{self.pk} - By: {self.user}'
+
+    def all_items_count(self):
+        return sum(item.quantity for item in self.items.all())
+
+    def total_order_price(self):
+        return sum(item.item_price() for item in self.items.all())

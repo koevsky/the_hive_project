@@ -2,21 +2,14 @@
 
 {% load static %}
 
-{% block  content %}
+{% block content %}
 
     <!-- Start All Title Box -->
     <div class="all-title-box">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>{{ addressing }} bee gardens</h2>
-                    {% if is_user or is_admin or is_moderator%}
-
-                        <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'create-apiary' %}">Add your new garden</a></li>
-
-                    {% endif %}
-                    </ul>
+                    <h2>All products</h2>
                 </div>
             </div>
         </div>
@@ -29,14 +22,18 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
-                        {% if apiaries %}
+                        {% if products %}
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Garden name</th>
-                                    <th>Location</th>
-                                    <th>Hives count</th>
+                                    <th>ID</th>
+                                    <th>Product picture</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Price</th>
+                                    <th>In stock</th>
+                                    <th>Owner</th>
+
                                     <th></th>
 
 
@@ -44,28 +41,39 @@
                                 </thead>
                                 <tbody>
 
-                                {% for apiary in apiaries %}
+                                {% for product in products %}
                                     <tr>
+                                        <td>{{ product.id }}</td>
                                         <td class="thumbnail-img">
-                                            {% if apiary.apiary_photo %}
-                                            <img class="img-fluid" src="{{ apiary.apiary_photo.url }}" alt=""/>
+                                            {% if product.product_image %}
+                                                <img class="img-fluid" src="{{ product.product_image.url }}" alt=""/>
                                             {% else %}
-                                            <img class="img-fluid" src="{% static 'images/default-apiary-image.png' %}" alt=""/>
+                                                <img class="img-fluid"
+                                                     src="{% static 'images/default-product-image.jpg' %}" alt=""/>
                                             {% endif %}
                                         </td>
+
                                         <td class="name-pr">
-                                                <h3>{{ apiary.apiary_name }}</h3>
+                                            <h3>{{ product.product_name }}</h3>
+                                        </td>
+
+                                        <td class="team-content">
+                                            <p> {{ product.product_type }}</p>
+                                        </td>
+                                        <td
+                                                class="quantity-box">{{ product.price|floatformat:2 }} lv
                                         </td>
                                         <td class="team-content">
-                                            <p> {{ apiary.location }} </p>
+                                            <p> {{ product.quantity }}</p>
                                         </td>
-                                        <td class="quantity-box">{{ apiary.hives_count }}</td>
-
+                                        <td>
+                                             <a href="{% url 'profile-details' product.owner.pk %}">{{ product.owner.username }}</a>
+                                        </td>
                                             <td class="cart-and-bay-btn">
                                                 <div class="price-box-bar">
                                                     <div class="cart-and-bay-btn">
                                                         <a class="btn hvr-hover" data-fancybox-close=""
-                                                           href="{% url 'details-apiary' apiary.pk %}">Details</a>
+                                                           href="{% url 'product-details' product.pk %}">Details</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -76,11 +84,12 @@
                                 </tbody>
                             </table>
                         {% else %}
-                            <h1 align="center" style="font-size: xxx-large">Not any bee gardens yet . . .</h1>
+                            <h1 align="center" style="font-size: xxx-large">Not any products yet . . .</h1>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
