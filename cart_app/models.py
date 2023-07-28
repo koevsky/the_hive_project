@@ -151,7 +151,9 @@ class Order(models.Model):
     expiration_date = models.DateField(
         blank=False,
         null=False,
-        auto_now_add=False
+        auto_now_add=False,
+        verbose_name= 'Expiration date [dd/mm/yy]'
+
     )
 
     cvv = models.CharField(

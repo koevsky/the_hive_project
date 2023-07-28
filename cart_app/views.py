@@ -159,7 +159,7 @@ def delete_order(request, pk):
 
     order = Order.objects.get(pk=pk)
 
-    if not perm_check(request, ['Admin'], order.user):
+    if not perm_check(request, ['Admin'], None):
         return redirect('index')
 
     order.delete()
@@ -204,7 +204,7 @@ def edit_item(request, pk):
         if form.is_valid():
             form.save()
 
-            url = reverse('order-details', kwargs={'pk': order.pk})
+            url = reverse('profile-orders', kwargs={'pk': order.user.pk})
             return redirect(url)
 
     context = {

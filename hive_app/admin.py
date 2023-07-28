@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 from apiary_app.models import ApiaryModel
 from cart_app.models import Cart, Order, CartItem
-from hive_app.models import EmailModel, Like
+from hive_app.models import Like
 from product_app.models import ProductModel
 
 UserModel = get_user_model()
@@ -59,15 +59,6 @@ class ProductAdmin(admin.ModelAdmin):
         ['Storage information:', {'fields': ['grams', 'price', 'quantity']}],
         ['Related to:', {'fields': ['owner', 'apiary']}]
     ]
-
-    list_per_page = 10
-
-
-@admin.register(EmailModel)
-class MailAdmin(admin.ModelAdmin):
-    list_display = ['email', 'subject', 'created_at']
-    ordering = ['created_at']
-    readonly_fields = ['email', 'created_at', 'subject']
 
     list_per_page = 10
 

@@ -67,14 +67,6 @@ class ShowAllOrders(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
         return super().dispatch(request, groups, *args, **kwargs)
 
 
-class ShowAllCartItems(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
-
-    model = CartItem
-    template_name = 'custom_admin/all_cartitems.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        groups = ['Admin']
-        return super().dispatch(request, groups, *args, **kwargs)
 
 
 

@@ -1,16 +1,14 @@
-import random
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import redirect
-
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, ListView, DetailView
-
+from django.views.generic import TemplateView, ListView, FormView
 from hive_app.forms import ContactForm
-from hive_app.models import EmailModel, Like
+from hive_app.models import Like
 from product_app.models import ProductModel
+from django.core.mail import send_mail
+
+from the_hive_project import settings
 
 
 class ShowIndexView(TemplateView):
@@ -18,12 +16,26 @@ class ShowIndexView(TemplateView):
     template_name = 'common/index.html'
 
 
-class ContactFormCreate(CreateView):
+class ContactFormCreate(FormView):
 
-    model = EmailModel
     form_class = ContactForm
     template_name = 'common/contact_page.html'
     success_url = reverse_lazy('contact-confirm')
+
+    def form_valid(self, form):
+
+        mail = form.cleaned_data['your_email']
+
+        subject = form.cleaned_data['subject']
+        subject = f"From: {mail} -> Subject: {subject}"
+
+        message = form.cleaned_data['message']
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = [settings.EMAIL_HOST_USER]
+
+        send_mail(subject, message, from_email, recipient_list)
+
+        return super().form_valid(form)
 
 
 class MailSentView(TemplateView):
@@ -32,17 +44,6 @@ class MailSentView(TemplateView):
 
 class ShowLogoutConfirm(LoginRequiredMixin, TemplateView):
     template_name = 'common/logout_page.html'
-
-
-class Custom404View(TemplateView):
-    template_name = '404/404.html'
-
-    def get_context_data(self,request, *args, **kwargs):
-
-        self.response = self.render_to_response(self.get_context_data(*args, **kwargs))
-        self.response.status_code = 404
-
-        return self.response
 
 
 class ShopPageView(ListView):

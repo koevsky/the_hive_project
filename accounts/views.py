@@ -147,8 +147,6 @@ class AllUserApiariesView(DetailView):
         context['apiaries'] = self.object.apiarymodel_set.all()
         context['addressing'] = addressing
         context['is_user'] = self.object == self.request.user
-        context['is_admin'] = self.request.user.groups.filter(name='Admin').exists()
-        context['is_moderator'] = self.request.user.groups.filter(name='Moderator').exists()
 
         return context
 

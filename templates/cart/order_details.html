@@ -33,8 +33,10 @@
                                     <th>Ordered quantity</th>
                                     <th>Total price</th>
                                     <th>Product details</th>
-                                    {% if is_admin %}
+                                    {% if is_admin or is_moderator%}
                                         <th>Edit</th>
+                                        {% endif %}
+                                    {% if is_admin %}
                                         <th>Delete</th>
                                     {% endif %}
 
@@ -75,7 +77,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        {% if is_admin %}
+                                        {% if is_admin or is_moderator %}
                                             <td class="cart-and-bay-btn">
                                                 <div class="price-box-bar">
                                                     <div class="cart-and-bay-btn">
@@ -84,8 +86,9 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                        {% endif %}
 
-
+                                        {% if is_admin %}
                                             <td class="remove-pr">
                                                 <a href="{% url 'item-delete' item.pk %}">
                                                     <i class="fas fa-times"></i>

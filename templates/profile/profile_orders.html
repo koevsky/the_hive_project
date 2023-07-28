@@ -29,7 +29,9 @@
                                     <th>Products count</th>
                                     <th>Total price</th>
                                     <th>Ordered products</th>
-                                    <th>Remove</th>
+                                    {% if is_admin %}
+                                        <th>Remove</th>
+                                    {% endif %}
 
 
                                 </tr>
@@ -60,13 +62,13 @@
                                         <td>
                                             <a href="{% url 'order-details' order.pk %}">Products</a>
                                         </td>
-
-                                        <td class="remove-pr">
-                                            <a href="{% url 'order-delete' order.pk %}">
-                                                <i class="fas fa-times"></i>
-                                            </a>
-                                        </td>
-
+                                        {% if is_admin %}
+                                            <td class="remove-pr">
+                                                <a href="{% url 'order-delete' order.pk %}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        {% endif %}
                                     </tr>
 
                                 {% endfor %}

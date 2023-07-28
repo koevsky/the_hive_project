@@ -1,18 +1,26 @@
 from django import forms
 
-from hive_app.models import EmailModel
 
+class ContactForm(forms.Form):
+    your_email = forms.EmailField(
+        max_length=100,
+        required=True,
+        widget=forms.EmailInput
+    )
 
-class ContactForm(forms.ModelForm):
+    subject = forms.CharField(
+        max_length=100,
+        required=False
+    )
 
-    class Meta:
-        model = EmailModel
-        fields = '__all__'
+    message = forms.CharField(
+        required=True,
+        widget=forms.Textarea
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for (_, field) in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
-
 

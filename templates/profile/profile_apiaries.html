@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2>{{ addressing }} bee gardens</h2>
-                    {% if is_user or is_admin or is_moderator%}
+                    {% if is_user %}
 
                         <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{% url 'create-apiary' %}">Add your new garden</a></li>

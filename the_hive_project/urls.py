@@ -1,3 +1,4 @@
+import django
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
@@ -10,7 +11,7 @@ urlpatterns = [
     path('product/', include('product_app.urls')),
     path('cart/', include('cart_app.urls')),
     path('', include('hive_app.urls')),
-    path('custom-admin/', include('custom_admin.urls'))
+    path('custom-admin/', include('custom_admin.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -4,19 +4,19 @@ from django.core.exceptions import ValidationError
 def name_letters_validator(value: str):
 
     if not value.isalpha():
-        return ValidationError('Name must consist of letters only!')
+        raise ValidationError('Name must consist of letters only!')
 
 
 def name_upper_validator(value: str):
 
     if not value[0].isupper():
-        return ValidationError('Name must start with capital letter!')
+        raise ValidationError('Name must start with capital letter!')
 
 
 def zip_code_length(value: int):
 
     if len(str(value)) < 4:
-        raise ValidationError('Zip code must be at least 5 digits!')
+        raise ValidationError('Zip code must be 4 digits!')
 
 
 def card_names_validator(value:str):
