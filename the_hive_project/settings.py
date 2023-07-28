@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'accounts',
     'product_app',
     'apiary_app',
-    'cart_app'
+    'cart_app',
+    'custom_admin'
+
 ]
 
 MIDDLEWARE = [
