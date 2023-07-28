@@ -7,6 +7,7 @@ from cart_app.models import Cart, CartItem, Order
 
 from product_app.models import ProductModel
 
+
 def perm_check(request, group_names, current_user):
     user_group = request.user.groups.values_list('name', flat=True)
 
