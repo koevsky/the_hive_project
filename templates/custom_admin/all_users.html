@@ -25,6 +25,7 @@
                 <div class="col-lg-12">
                     <div class="table-main table-responsive">
                         {% if users %}
+
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -65,20 +66,19 @@
                                         </td>
                                         <td class="quantity-box">{{ user.date_joined }}</td>
 
-                                            <td class="cart-and-bay-btn">
-                                                <div class="price-box-bar">
-                                                    <div class="cart-and-bay-btn">
-                                                        <a class="btn hvr-hover" data-fancybox-close=""
-                                                           href="{% url 'profile-details' user.pk %}">Details</a>
-                                                    </div>
+                                        <td class="cart-and-bay-btn">
+                                            <div class="price-box-bar">
+                                                <div class="cart-and-bay-btn">
+                                                    <a class="btn hvr-hover" data-fancybox-close=""
+                                                       href="{% url 'profile-details' user.pk %}">Details</a>
                                                 </div>
-                                            </td>
+                                            </div>
+                                        </td>
 
                                     </tr>
                                 {% endfor %}
-
-                                </tbody>
                             </table>
+
                         {% else %}
                             <h1 align="center" style="font-size: xxx-large">Not any users yet . . .</h1>
                         {% endif %}

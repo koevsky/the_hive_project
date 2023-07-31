@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from apiary_app.forms import ApiaryForm, ApiaryDeleteForm
 from apiary_app.models import ApiaryModel

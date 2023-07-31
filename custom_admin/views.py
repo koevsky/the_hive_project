@@ -66,11 +66,3 @@ class ShowAllOrders(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
         groups = ['Admin']
         return super().dispatch(request, groups, *args, **kwargs)
 
-
-
-
-
-
-
-
-

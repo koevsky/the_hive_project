@@ -47,7 +47,7 @@
                                 {% for item in order_items %}
                                     <tr>
                                         <td class="thumbnail-img">
-                                            {% if item.product.product_name %}
+                                            {% if item.product.product_image %}
                                                 <img class="img-fluid" src="{{ item.product.product_image.url }}"
                                                      alt=""/>
                                             {% else %}

@@ -1,13 +1,13 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
-from django.templatetags.static import static
-from accounts.validators import names_validator, telephone_number_validator
+from accounts.validators import telephone_number_validator, validate_name_is_alpha, validate_name_starts_with_upper
 
 
 class HiveUser(AbstractUser):
 
     MIN_NAMES_LENGTH = MinLengthValidator(2)
+    DEFAULT_MAX_LENGTH = 30
 
     email = models.EmailField(
         blank=False,
@@ -18,15 +18,23 @@ class HiveUser(AbstractUser):
     first_name = models.CharField(
         blank=True,
         null=True,
-        max_length=30,
-        validators=[MIN_NAMES_LENGTH, names_validator]
+        max_length=DEFAULT_MAX_LENGTH,
+        validators=[
+            MIN_NAMES_LENGTH,
+            validate_name_is_alpha,
+            validate_name_starts_with_upper
+        ]
     )
 
     last_name = models.CharField(
         blank=True,
         null=True,
-        max_length=30,
-        validators=[MIN_NAMES_LENGTH, names_validator]
+        max_length=DEFAULT_MAX_LENGTH,
+        validators=[
+            MIN_NAMES_LENGTH,
+            validate_name_is_alpha,
+            validate_name_starts_with_upper
+        ]
     )
 
     profile_picture = models.ImageField(
@@ -39,7 +47,9 @@ class HiveUser(AbstractUser):
     telephone_number = models.CharField(
         blank=True,
         null=True,
-        validators=[telephone_number_validator]
+        validators=[
+            telephone_number_validator
+        ]
     )
 
     description = models.TextField(
