@@ -12,7 +12,6 @@ class OrderForm(forms.ModelForm):
         model = Order
         exclude = ['user', 'items', 'total_products_qty', 'total_price']
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

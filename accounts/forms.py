@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
+from accounts.models import HiveUser
 
 UserModel = get_user_model()
 
@@ -13,7 +14,6 @@ class HiveUserCreationForm(UserCreationForm):
 
     username = forms.CharField(
         max_length=150,
-        help_text='',
         validators=[username_validator],
         error_messages={
             "unique": "A user with that username already exists.",
@@ -21,7 +21,19 @@ class HiveUserCreationForm(UserCreationForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Your username',
-                'class': 'form-control'
+            }
+        )
+    )
+
+    email = forms.EmailField(
+        required=True,
+        error_messages={
+            "unique": "A user with that e-mail already exists.",
+        },
+        max_length=150,
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'Your email'
             }
         )
     )
@@ -29,11 +41,10 @@ class HiveUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label='Password',
         required=True,
-        max_length=30,
+        max_length=40,
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Your password',
-                'class': 'form-control'
             }
         ),
     )
@@ -41,11 +52,10 @@ class HiveUserCreationForm(UserCreationForm):
     password2 = forms.CharField(
         label='Repeat password',
         required=True,
-        max_length=30,
+        max_length=40,
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Password confirmation',
-                'class': 'form-control'
             }
         ),
     )
@@ -55,39 +65,20 @@ class HiveUserCreationForm(UserCreationForm):
         model = UserModel
         fields = ['username', 'email', 'password1', 'password2']
 
-        widgets = {
-            'email': forms.EmailInput(
-                attrs={
-                    'placeholder': 'Email',
-                    'class': 'form-control'
-                }
-            ),
-        }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for (_, field) in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
 
 class UserLoginForm(AuthenticationForm):
 
-    username = UsernameField(
-        widget=forms.TextInput(
-            attrs={
-                'autofocus': True,
-                'placeholder': 'Username',
-                'class': 'form-control'
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-            }
-        )
-    )
-
-    password = forms.CharField(
-        strip=False,
-        widget=forms.PasswordInput(
-            attrs={
-                'autocomplete': 'current-password',
-                'placeholder': 'Password',
-                'class': 'form-control'
-            }
-        )
-    )
+        for (_, field) in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
 
 class UserEditForm(forms.ModelForm):

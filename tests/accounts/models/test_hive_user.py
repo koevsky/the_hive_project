@@ -3,7 +3,6 @@ from django.db import DataError
 from django.test import TestCase
 
 from accounts.models import HiveUser
-from accounts.validators import telephone_number_validator
 
 
 class HiveUserTests(TestCase):
