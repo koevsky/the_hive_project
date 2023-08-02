@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator, MinValueValidator
 from django.db import models
 
-from apiary_app.validators import validate_name_upper, validate_name_symbols
+from apiary_app.validators import validate_name_upper, validate_name_symbols, validate_is_whitespace
 
 UserModel = get_user_model()
 
@@ -14,11 +14,13 @@ class ApiaryModel(models.Model):
     apiary_name = models.CharField(
         blank=False,
         null=False,
+        unique=True,
         max_length=30,
         validators=[
             MIN_NAME_LENGTH,
             validate_name_upper,
-            validate_name_symbols
+            validate_name_symbols,
+            validate_is_whitespace
         ]
     )
 
@@ -30,6 +32,7 @@ class ApiaryModel(models.Model):
             MIN_NAME_LENGTH,
             validate_name_upper,
             validate_name_symbols,
+            validate_is_whitespace
         ]
     )
 

@@ -32,6 +32,7 @@ class HiveUserTests(TestCase):
         self.assertTrue(user.check_password('testpass123'))
 
     def test_create_valid_superuser(self):
+
         superuser = HiveUser.objects.create_superuser(**self.VALID_USER_DATA)
 
         self.assertIsInstance(superuser, HiveUser)
@@ -39,6 +40,7 @@ class HiveUserTests(TestCase):
         self.assertTrue(superuser.is_staff)
 
     def test_valid_user_full_data(self):
+
         user = HiveUser.objects.create_user(**self.VALID_USER_DATA_FULL)
 
         self.assertIsNotNone(user.pk)
@@ -52,23 +54,28 @@ class HiveUserTests(TestCase):
 
         invalid_data = {**self.VALID_USER_DATA_FULL, 'first_name': 'X' + HiveUser.DEFAULT_MAX_LENGTH * 'x'}
 
-        with self.assertRaises(DataError):
+        with self.assertRaises(DataError) as er:
             user = HiveUser.objects.create_user(
                 **invalid_data,
             )
             user.clean_fields()
+
+        self.assertIsNotNone(er.exception)
 
     def test_invalid_last_name_has_one_more_characters(self):
 
         invalid_data = {**self.VALID_USER_DATA_FULL, 'last_name': 'X' + HiveUser.DEFAULT_MAX_LENGTH * 'x'}
 
-        with self.assertRaises(DataError):
+        with self.assertRaises(DataError) as er:
             user = HiveUser.objects.create_user(
                 **invalid_data,
             )
             user.clean_fields()
 
+        self.assertIsNotNone(er.exception)
+
     def test_wrong_user_telephone_raise_validation_error(self):
+
         invalid_data = {**self.VALID_USER_DATA_FULL, 'telephone_number': 'test123994556'}
 
         with self.assertRaises(ValidationError) as er:
@@ -78,6 +85,8 @@ class HiveUserTests(TestCase):
             user.clean_fields()
 
         self.assertIsNotNone(er.exception)
+        self.assertIn('Invalid number!', er.exception.message_dict['telephone_number'])
+
 
 
 

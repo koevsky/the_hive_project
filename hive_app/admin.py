@@ -47,7 +47,7 @@ class ApiaryAdmin(admin.ModelAdmin):
 
 @admin.register(ProductModel)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['pk','product_name', 'apiary', 'owner']
+    list_display = ['pk', 'product_name', 'apiary', 'owner']
     ordering = ['pk']
 
     readonly_fields = ['owner', 'apiary', 'quantity', 'grams']
