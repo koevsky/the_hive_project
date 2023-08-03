@@ -45,7 +45,7 @@ class UserProfileDetailsViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, f'/accounts/login/?next={self.profile_details_url}')
 
-    def test_invalid_profile_details_authenticated_user(self):
+    def test_invalid_pk_profile_details_authenticated_user(self):
 
         self.client.login(**self.VALID_LOGIN_DATA)
         invalid_profile_url = reverse('profile-details', kwargs={'pk': 9999})

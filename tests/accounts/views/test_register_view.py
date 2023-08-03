@@ -36,7 +36,6 @@ class UserRegisterViewTest(TestCase):
     def test_register_with_invalid_data(self):
 
         invalid_data = {**self.VALID_USER_REGISTER_DATA, 'email': 'wrongmailtest'}
-
         response = self.client.post(self.register_url, invalid_data)
 
         self.assertEqual(response.status_code, 200)
@@ -47,7 +46,6 @@ class UserRegisterViewTest(TestCase):
         user = HiveUser.objects.create_user(**self.VALID_USER_LOGIN_DATA)
         Cart.objects.create(user=user)
         self.client.login(**self.VALID_USER_LOGIN_DATA)
-
         response = self.client.get(self.register_url)
 
         self.assertEqual(response.status_code, 302)
