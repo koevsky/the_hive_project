@@ -45,18 +45,24 @@
 
                                 {% for user in users %}
                                     <tr>
-                                        <td>{{ user.id }}</td>
+
+                                        <td>
+                                            {{ user.id }}
+                                        </td>
+
                                         <td class="thumbnail-img">
                                             {% if user.profile_picture %}
-                                                <img class="img-fluid" src="{{ user.prfile_picture.url }}" alt=""/>
+                                                <img class="img-fluid" src="{{ user.profile_picture.url }}" alt=""/>
                                             {% else %}
                                                 <img class="img-fluid"
                                                      src="{% static 'images/profile-picture.png' %}" alt=""/>
                                             {% endif %}
                                         </td>
+
                                         <td class="name-pr">
                                             <h3>{{ user.username }}</h3>
                                         </td>
+
                                         <td class="name-pr">
                                             <h3>{{ user.email }}</h3>
                                         </td>
