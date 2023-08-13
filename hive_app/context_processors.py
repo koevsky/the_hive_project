@@ -1,10 +1,9 @@
 from cart_app.models import Cart
-from product_app.models import ProductModel
 
 
 def cart_items_processor(request):
 
-    if request.user.is_authenticated and not request.user.is_superuser:
+    if request.user.is_authenticated:
 
         cart = Cart.objects.get(user=request.user)
         items = cart.items.all()

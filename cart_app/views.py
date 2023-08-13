@@ -92,9 +92,8 @@ def update_cart(request, pk):
         context = {
             'error_message': error_message,
             'cart_items': cart_items,
-            'total_money': total_money
+            'total_price': total_money
         }
-
         return render(request, 'cart/cart_details.html', context)
 
     item.quantity = new_quantity
