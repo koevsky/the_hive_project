@@ -4,22 +4,23 @@ from django.views.generic import ListView, TemplateView
 
 from accounts.models import HiveUser
 from apiary_app.models import ApiaryModel
-from cart_app.models import Order, CartItem, Cart
-from hive_app.models import Like
+from cart_app.models import Order
+
 from product_app.models import ProductModel
-from the_hive_core.custom_mixins import CustomPermissionAdminMixin
+from the_hive_core.custom_mixins import CustomPermissionUserMixin
 
 
-class ShowCustomAdminPage(CustomPermissionAdminMixin, LoginRequiredMixin, TemplateView):
+class ShowCustomAdminPage(CustomPermissionUserMixin, LoginRequiredMixin, TemplateView):
 
     template_name = 'custom_admin/custom_admin_page.html'
 
     def dispatch(self, request, *args, **kwargs):
         groups = ['Admin']
-        return super().dispatch(request, groups, *args, **kwargs)
+        user = None
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
 
-class ShowAllUsers(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
+class ShowAllUsers(CustomPermissionUserMixin, LoginRequiredMixin, ListView):
 
     model = HiveUser
     template_name = 'custom_admin/all_users.html'
@@ -28,10 +29,11 @@ class ShowAllUsers(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         groups = ['Admin']
-        return super().dispatch(request, groups, *args, **kwargs)
+        user = None
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
 
-class ShowAllApiaries(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
+class ShowAllApiaries(CustomPermissionUserMixin, LoginRequiredMixin, ListView):
 
     model = ApiaryModel
     template_name = 'custom_admin/all_apiaries.html'
@@ -40,10 +42,11 @@ class ShowAllApiaries(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         groups = ['Admin']
-        return super().dispatch(request, groups, *args, **kwargs)
+        user = None
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
 
-class ShowAllProducts(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
+class ShowAllProducts(CustomPermissionUserMixin, LoginRequiredMixin, ListView):
 
     model = ProductModel
     template_name = 'custom_admin/all_products.html'
@@ -52,10 +55,11 @@ class ShowAllProducts(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         groups = ['Admin']
-        return super().dispatch(request, groups, *args, **kwargs)
+        user = None
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
 
-class ShowAllOrders(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
+class ShowAllOrders(CustomPermissionUserMixin, LoginRequiredMixin, ListView):
 
     model = Order
     template_name = 'custom_admin/all_orders.html'
@@ -64,5 +68,6 @@ class ShowAllOrders(CustomPermissionAdminMixin, LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         groups = ['Admin']
-        return super().dispatch(request, groups, *args, **kwargs)
+        user = None
+        return super().dispatch(request, groups, user, *args, **kwargs)
 
